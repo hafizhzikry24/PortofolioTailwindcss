@@ -19,19 +19,19 @@ export default function Footer(){
               >
                 <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
               </svg>
-              <span class="ml-3 text-xl">Tailblocks</span>
+              <span class="ml-3 text-xl">PortofolioHafizh</span>
             </a>
 
             
             <p class="text-sm text-gray-400 sm:ml-6 sm:mt-0 mt-4">
-              © 2020 Tailblocks —
+              © 2024 Muhammad Hafizh Zikry —
               <a
                 href="https://twitter.com/knyttneve"
                 class="text-gray-500 ml-1"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                @knyttneve
+                @hafizh.zikry
               </a>
             </p>
             <span class="inline-flex sm:ml-auto sm:mt-0 mt-4 justify-center sm:justify-start">
@@ -41,13 +41,14 @@ export default function Footer(){
                   stroke-linecap="round"
                   stroke-linejoin="round"
                   stroke-width="2"
-                  class="w-5 h-5"
-                  viewBox="0 0 24 24"
+                  class="w-6 h-6"
+                  viewBox="0 0 192 192"
                 >
-                  <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"></path>
+                  <path d="M22 57.265V142c0 5.523 4.477 10 10 10h24V95.056l40 30.278 40-30.278V152h24c5.523 0 10-4.477 10-10V57.265c0-13.233-15.15-20.746-25.684-12.736L96 81.265 47.684 44.53C37.15 36.519 22 44.032 22 57.265Z"></path>
                 </svg>
+                {/* <svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 192 192" fill="none"><path stroke="#000000" stroke-linejoin="round" stroke-width="12" d="M22 57.265V142c0 5.523 4.477 10 10 10h24V95.056l40 30.278 40-30.278V152h24c5.523 0 10-4.477 10-10V57.265c0-13.233-15.15-20.746-25.684-12.736L96 81.265 47.684 44.53C37.15 36.519 22 44.032 22 57.265Z"/></svg> */}
               </a>
-              <a class="ml-3 text-gray-400">
+              {/* <a class="ml-3 text-gray-400">
                 <svg
                   fill="currentColor"
                   stroke-linecap="round"
@@ -89,7 +90,7 @@ export default function Footer(){
                   ></path>
                   <circle cx="4" cy="4" r="2" stroke="none"></circle>
                 </svg>
-              </a>
+              </a> */}
             </span>
           </div>
         </div>

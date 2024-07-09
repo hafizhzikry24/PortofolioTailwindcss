@@ -12,16 +12,16 @@ import laravel from "../assets/laravel.png";
 
 const About = ({ theme }) => {
   return (
-    <section className="min-h-screen ml">
+    <section className="min-h-screen ml" id = "about">
       <div
         name="About"
         className={
           theme
-            ? " md:text-2xl  w-full min-h-screen  shadow-box-shadow bg-[#ffffff] text-[#000000] font-bold p-20  "
+            ? " md:text-2xl  w-full min-h-screen  shadow-box-shadow bg-[#ffffff] text-[#000000] font-bold p-8  "
             : " md:text-2xl  w-full min-h-screen bg-slate-100 text-[#7c8cc2] p-20  "
         }
       >
-        <div className="flex flex-col justify-center items-center w-full h-full shadow-box-shadow p-8 rounded-3xl mt-28">
+        <div className="flex flex-col justify-center items-center w-full h-full shadow-box-shadow p-2 rounded-3xl mt-20 text-justify">
           <div className="max-w-[1000px] w-full grid grid-cols-2 gap-8">
             <AnimationOnScroll animateIn="animate__fadeInLeftBig">
               <div className="sm:text-right pb-8 pl-4 ">
@@ -35,8 +35,8 @@ const About = ({ theme }) => {
           <div className="max-w-[1000px] w-full grid sm:grid-cols-2 gap-8 px-4">
             <AnimationOnScroll animateIn="animate__fadeInLeftBig">
               <div className="sm:text-right text-4xl ">
-                <p className="text-xl sm:text-2xl md:text-4xl">
-                  Hi. I'm Shoaib, nice to meet you. Please take a look around.
+                <p className="text-xl sm:text-xl md:text-3xl">
+                . I am interested in a career and exploring things in the IT field, especially in the fields of Network architecture and Programming. 
                 </p>
               </div>
             </AnimationOnScroll>
@@ -45,11 +45,10 @@ const About = ({ theme }) => {
                 <AnimationOnScroll animateIn="animate__tada">
                   <img src={design} alt="" className="h-13 animate-bounce" />
                 </AnimationOnScroll>
-                <p className="leading-relaxed text-sm md:text-xl">
-                  I am passionate about building excellent software that
-                  improves the lives of those around me. I am specializing in
-                  creating Responsive web applications for individuals and
-                  small-businesses,I like to Learn New Technologies .{" "}
+                <p className="leading-relaxed text-2xl md:text-2xl">
+                Creative front-end developer and network engineer with more than 3+ years of experience
+              as a freelance and . Proficient in HTML, Tailwind
+              CSS, Javascript, NextJS, and ReactJS. Passionate about Cats .{" "}
                 </p>
               </div>
             </AnimationOnScroll>
@@ -57,15 +56,16 @@ const About = ({ theme }) => {
         </div>
 
         <AnimationOnScroll animateIn="animate__fadeInLeftBig">
-          <div className="grid grid-cols-4 lg:grid-cols-8 mt-12 mb-12 gap-10 mx-5 justify-center">
+          <div className="grid grid-cols-3 lg:grid-cols-9 mt-12 mb-12 gap-5 mx-5  justify-center">
             <img src={js} title="JavaScript" alt=""  />
             <img src={css} title="CSS" alt="" />
-            <img src={vscode} title="VSCode" alt="" />
             <img src={html} title="HTML" alt="" />
             <img src={react} title="React" alt="" />
             <img src={github} title="github" alt="" />
             <img src={tailwind} title="tailwind" alt="" />
             <img src={laravel} title="laravel" alt="" />
+            <img src={laravel} title="Figma" alt="" />
+            <img src={laravel} title="Cisco" alt="" />
           </div>
         </AnimationOnScroll>
       </div>
