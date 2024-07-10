@@ -3,118 +3,71 @@ import React from "react";
 export default function Experience() {
   return (
     <section class="text-gray-600 body-font overflow-hidden bg-slate-100" id = "experience">
-      <div class="container px-5 py-24 mx-auto">
-      <div class="flex flex-col text-center w-full mb-20">
+      <div class="container px-5 py-28 mx-auto text-justify">
+      <div class="flex flex-col text-center w-full mb-20 ">
           <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">
             Experience
           </h1>
           <p class="lg:w-2/3 mx-auto leading-relaxed text-base">
-            Whatever cardigan tote bag tumblr hexagon brooklyn asymmetrical
-            gentrify, subway tile poke farm-to-table. Franzen you probably
-            haven't heard of them man bun deep jianbing selfies heirloom.
+          This is my experience while studying at Diponegoro University.
           </p>
         </div>
         <div class="-my-8 divide-y-2 divide-gray-100">
           <div class="py-8 flex flex-wrap md:flex-nowrap">
             <div class="md:w-64 md:mb-0 mb-6 flex-shrink-0 flex flex-col">
               <span class="font-semibold title-font text-gray-700">
-                CATEGORY
+                SMKN 53 Jakarta
               </span>
-              <span class="mt-1 text-gray-500 text-sm">12 Jun 2019</span>
+              <span class="mt-1 text-gray-500 text-sm">Jan 2023 - Feb 2023</span>
             </div>
             <div class="md:flex-grow">
               <h2 class="text-2xl font-medium text-gray-900 title-font mb-2">
-                Bitters hashtag waistcoat fashion axe chia unicorn
+                Network Engineer
               </h2>
               <p class="leading-relaxed">
-                Glossier echo park pug, church-key sartorial biodiesel
-                vexillologist pop-up snackwave ramps cornhole. Marfa 3 wolf moon
-                party messenger bag selfies, poke vaporware kombucha
-                lumbersexual pork belly polaroid hoodie portland craft beer.
+              Carrying out network design or what is known as network architecture, installing and configuring the network design then monitoring the network to ensure that the network does not experience problems, troubleshooting which is carried out when interference or problems are found on a network and documentation is useful for reports and also makes the subsequent troubleshooting process easier.
               </p>
-              <a class="text-indigo-500 inline-flex items-center mt-4">
-                Learn More
-                <svg
-                  class="w-4 h-4 ml-2"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  fill="none"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                >
-                  <path d="M5 12h14"></path>
-                  <path d="M12 5l7 7-7 7"></path>
-                </svg>
-              </a>
+             
             </div>
           </div>
           <div class="py-8 flex flex-wrap md:flex-nowrap">
             <div class="md:w-64 md:mb-0 mb-6 flex-shrink-0 flex flex-col">
               <span class="font-semibold title-font text-gray-700">
-                CATEGORY
+                MTQMN XVII at Malang
               </span>
-              <span class="mt-1 text-gray-500 text-sm">12 Jun 2019</span>
+              <span class="mt-1 text-gray-500 text-sm">Nov 2023</span>
             </div>
             <div class="md:flex-grow">
               <h2 class="text-2xl font-medium text-gray-900 title-font mb-2">
-                Meditation bushwick direct trade taxidermy shaman
+                UI/UX Design
               </h2>
               <p class="leading-relaxed">
-                Glossier echo park pug, church-key sartorial biodiesel
-                vexillologist pop-up snackwave ramps cornhole. Marfa 3 wolf moon
-                party messenger bag selfies, poke vaporware kombucha
-                lumbersexual pork belly polaroid hoodie portland craft beer.
+              Became first winner in the Diponegoro University MTQM in the Al-Quran Application Design competition with design thinking and had the right to represent Diponegoro University in the National MTQM at Brawijaya University, Malang, and Together with my team, we had the opportunity among 50 representatives from universities across Indonesia to present the Design of the Quran Application before the jury in the national competition "Musabaqah Tilawatil Quran Mahasiswa Nasional" at Brawijaya University, Malang, and we finishid top 18.
               </p>
-              <a class="text-indigo-500 inline-flex items-center mt-4">
-                Learn More
-                <svg
-                  class="w-4 h-4 ml-2"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  fill="none"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                >
-                  <path d="M5 12h14"></path>
-                  <path d="M12 5l7 7-7 7"></path>
-                </svg>
-              </a>
+              
             </div>
           </div>
           <div class="py-8 flex flex-wrap md:flex-nowrap">
             <div class="md:w-64 md:mb-0 mb-6 flex-shrink-0 flex flex-col">
               <span class="font-semibold title-font text-gray-700">
-                CATEGORY
+                Diponegoro University
               </span>
-              <span class="text-sm text-gray-500">12 Jun 2019</span>
+              <span class="text-sm text-gray-500">apr 2023 - apr 2024</span>
             </div>
             <div class="md:flex-grow">
               <h2 class="text-2xl font-medium text-gray-900 title-font mb-2">
-                Woke master cleanse drinking vinegar salvia
+                Assitant Practicum
               </h2>
               <p class="leading-relaxed">
-                Glossier echo park pug, church-key sartorial biodiesel
-                vexillologist pop-up snackwave ramps cornhole. Marfa 3 wolf moon
-                party messenger bag selfies, poke vaporware kombucha
-                lumbersexual pork belly polaroid hoodie portland craft beer.
+              During my studies I took the opportunity to become a practicum assistant, I taught
+              •	Assistant practicum of Digital System Class
+              •	Assistant practicum of Introduction To Network Class
+              •	Assistant practicum of Advanced Digital Systems Lanjut Lanjut Class
+              •	Assistant practicum of Switching, routing and wireless essentials Class
+              •	Assistant practicum of Automation and Control Systems Practical Class
+.
               </p>
-              <a class="text-indigo-500 inline-flex items-center mt-4">
-                Learn More
-                <svg
-                  class="w-4 h-4 ml-2"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  fill="none"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                >
-                  <path d="M5 12h14"></path>
-                  <path d="M12 5l7 7-7 7"></path>
-                </svg>
-              </a>
+              
             </div>
           </div>
         </div>

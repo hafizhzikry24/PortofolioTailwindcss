@@ -7,7 +7,7 @@ export default function Footer(){
         <div class="bg-gray-800 bg-opacity-75">
           <div class="container px-5 py-6 mx-auto flex items-center sm:flex-row flex-col">
             <a class="flex title-font font-medium items-center md:justify-start justify-center text-white">
-              <svg
+              {/* <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 stroke="currentColor"
@@ -18,7 +18,7 @@ export default function Footer(){
                 viewBox="0 0 24 24"
               >
                 <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
-              </svg>
+              </svg> */}
               <span class="ml-3 text-xl">PortofolioHafizh</span>
             </a>
 
@@ -35,13 +35,13 @@ export default function Footer(){
               </a>
             </p>
             <span class="inline-flex sm:ml-auto sm:mt-0 mt-4 justify-center sm:justify-start">
-              <a class="text-gray-400">
+              <a href="mailto:hafizhcool24@gmail.com" class="text-gray-400">
                 <svg
                   fill="currentColor"
                   stroke-linecap="round"
                   stroke-linejoin="round"
                   stroke-width="2"
-                  class="w-6 h-6"
+                  class="w-7 h-7"
                   viewBox="0 0 192 192"
                 >
                   <path d="M22 57.265V142c0 5.523 4.477 10 10 10h24V95.056l40 30.278 40-30.278V152h24c5.523 0 10-4.477 10-10V57.265c0-13.233-15.15-20.746-25.684-12.736L96 81.265 47.684 44.53C37.15 36.519 22 44.032 22 57.265Z"></path>

@@ -4,7 +4,8 @@ import { AnimationOnScroll } from "react-animation-on-scroll";
 import js from "../assets/js.png";
 import react from "../assets/react.png";
 import css from "../assets/css.png";
-import vscode from "../assets/vscode.png";
+import figma from "../assets/figma.png";
+import cisco2 from "../assets/image.png";
 import html from "../assets/html .png";
 import tailwind from "../assets/tailwind.png";
 import github from "../assets/github.png";
@@ -64,8 +65,8 @@ const About = ({ theme }) => {
             <img src={github} title="github" alt="" />
             <img src={tailwind} title="tailwind" alt="" />
             <img src={laravel} title="laravel" alt="" />
-            <img src={laravel} title="Figma" alt="" />
-            <img src={laravel} title="Cisco" alt="" />
+            <img src={figma} title="Figma" alt="" />
+            <img src={cisco2} title="Cisco" alt="" className="py-3" />
           </div>
         </AnimationOnScroll>
       </div>

@@ -242,10 +242,10 @@ import React from "react";
 
 export default function Header() {
   return (
-    <header class="text-white body-font bg-gray-800 sticky top-0 left-0 right-0 ">
+    <header class="text-white body-font bg-gray-800  ">
       <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
         <a class="flex title-font font-medium items-center textwhite mb-4 md:mb-0">
-          <svg
+          {/* <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             stroke="currentColor"
@@ -256,14 +256,14 @@ export default function Header() {
             viewBox="0 0 24 24"
           >
             <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
-          </svg>
+          </svg> */}
           <span class="ml-3 text-xl">PortofolioHafizh</span>
         </a>
         <nav class="md:ml-auto flex flex-wrap items-center text-base justify-center">
-          <a href="#content" class="mr-5 hover:text-gray-900">Intro</a>
-          <a href="#about" class="mr-5 hover:text-gray-900">About</a>
-          <a href="#projects" class="mr-5 hover:text-gray-900">Project</a>
-          <a href="#experience" class="mr-5 hover:text-gray-900">Experience</a>
+          <a href="#content" class="mr-5 hover:text-slate-200">Intro</a>
+          <a href="#about" class="mr-5 hover:text-slate-200">About</a>
+          <a href="#projects" class="mr-5 hover:text-slate-200">Project</a>
+          <a href="#experience" class="mr-5 hover:text-slate-200">Experience</a>
         </nav>
       </div>
     </header>

@@ -57,17 +57,15 @@ export default function Projects() {
 
     <section class="text-gray-600 body-font ">
       <div class="container px-5 py-24 mx-auto min-h-screen" id="projects">
-        <div class="flex flex-col text-center w-full mb-20">
+        <div class="flex flex-col text-center w-full mb-20 my-8">
           <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">
             My Projects
           </h1>
           <p class="lg:w-2/3 mx-auto leading-relaxed text-base">
-            Whatever cardigan tote bag tumblr hexagon brooklyn asymmetrical
-            gentrify, subway tile poke farm-to-table. Franzen you probably
-            haven't heard of them man bun deep jianbing selfies heirloom.
+          This is a project that I made while studying in the IT field, I made this project for college and internship needs to develop hard skills, I got this project from college assignments, practical work, and research.
           </p>
         </div>
-        <div class="flex flex-wrap -m-4 py-8">
+        <div class="flex flex-wrap -m-4 py-8 text-justify">
           <div class="lg:w-1/3 sm:w-1/2 p-4">
             <div class="flex relative">
               <img
@@ -83,8 +81,7 @@ export default function Projects() {
                   BLOG Bercak Village
                 </h1>
                 <p class="leading-relaxed">
-                  Photo booth fam kinfolk cold-pressed sriracha leggings
-                  jianbing microdosing tousled waistcoat.
+                  Created a profile village of bercak for KKN task using reactJS and Tailwind CSS .
                 </p>
               </div>
             </div>
@@ -104,8 +101,7 @@ export default function Projects() {
                   Madani
                 </h1>
                 <p class="leading-relaxed">
-                  Photo booth fam kinfolk cold-pressed sriracha leggings
-                  jianbing microdosing tousled waistcoat.
+                  Created for UI/UX Competition for MTQMN using figma and developed with design thinking.
                 </p>
               </div>
             </div>
@@ -125,8 +121,7 @@ export default function Projects() {
                   Network Enginner
                 </h1>
                 <p class="leading-relaxed">
-                  Photo booth fam kinfolk cold-pressed sriracha leggings
-                  jianbing microdosing tousled waistcoat.
+                NETWORK DESIGN AND RECONFIGURATION LABORATORY 2 STATE VOCATIONAL SCHOOL 53 JAKARTA.
                 </p>
               </div>
             </div>
@@ -146,8 +141,7 @@ export default function Projects() {
                   SPCPLCPMK
                 </h1>
                 <p class="leading-relaxed">
-                  Photo booth fam kinfolk cold-pressed sriracha leggings
-                  jianbing microdosing tousled waistcoat.
+                  Created website SPCPLCPMK for Capstone, and my role is front-end developer.
                 </p>
               </div>
             </div>
@@ -167,8 +161,7 @@ export default function Projects() {
                   FOODY
                 </h1>
                 <p class="leading-relaxed">
-                  Photo booth fam kinfolk cold-pressed sriracha leggings
-                  jianbing microdosing tousled waistcoat.
+                  Created PWA App reciept food with Next.js and tailwind css.
                 </p>
               </div>
             </div>
@@ -188,8 +181,7 @@ export default function Projects() {
                   Blog Klikiran Village
                 </h1>
                 <p class="leading-relaxed">
-                  Photo booth fam kinfolk cold-pressed sriracha leggings
-                  jianbing microdosing tousled waistcoat.
+                Created a profile village of klikiran for KKN task using reactJS and Tailwind CSS.
                 </p>
               </div>
             </div>
