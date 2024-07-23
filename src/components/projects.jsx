@@ -73,7 +73,7 @@ export default function Projects() {
                 class="absolute inset-0 w-full h-full object-cover object-center"
                 src={bercak}
               />
-              <a href="https://desabercakboyolali.web.app/"><div class="px-8 py-10 relative z-10 w-full border-4 border-gray-200 bg-white opacity-0 hover:opacity-100">
+              <a href="https://desabercakboyolali.web.app/" target="_blank"><div class="px-8 py-10 relative z-10 w-full border-4 border-gray-200 bg-white opacity-0 hover:opacity-100">
                 <h2 class="tracking-widest text-sm title-font font-medium text-yellow-500 mb-1">
                   Profile Website
                 </h2>
@@ -93,7 +93,7 @@ export default function Projects() {
                 class="absolute inset-0 w-full h-full object-cover object-center"
                 src={madani}
               />
-              <a href="https://bit.ly/PrototipeMadani"><div class="px-8 py-10 relative z-10 w-full border-4 border-gray-200 bg-white opacity-0 hover:opacity-100">
+              <a href="https://bit.ly/PrototipeMadani" target="_blank"><div class="px-8 py-10 relative z-10 w-full border-4 border-gray-200 bg-white opacity-0 hover:opacity-100">
                 <h2 class="tracking-widest text-sm title-font font-medium text-yellow-500 mb-1">
                   UI/UX Competition
                 </h2>
@@ -133,7 +133,7 @@ export default function Projects() {
                 class="absolute inset-0 w-full h-full object-cover object-center"
                 src={porto}
               />
-              <a href="https://test1.spcplcpmk.com/login"><div class="px-8 py-10 relative z-10 w-full border-4 border-gray-200 bg-white opacity-0 hover:opacity-100">
+              <a href="https://test1.spcplcpmk.com/login" target="_blank"><div class="px-8 py-10 relative z-10 w-full border-4 border-gray-200 bg-white opacity-0 hover:opacity-100">
                 <h2 class="tracking-widest text-sm title-font font-medium text-yellow-500 mb-1">
                   Capstone Project
                 </h2>
@@ -153,7 +153,7 @@ export default function Projects() {
                 class="absolute inset-0 w-full h-full object-cover object-center"
                 src={foody}
               />
-              <a href="foody-culinary.vercel.app"></a><div class="px-8 py-10 relative z-10 w-full border-4 border-gray-200 bg-white opacity-0 hover:opacity-100">
+              <a href="foody-culinary.vercel.app" target="_blank"></a><div class="px-8 py-10 relative z-10 w-full border-4 border-gray-200 bg-white opacity-0 hover:opacity-100">
                 <h2 class="tracking-widest text-sm title-font font-medium text-yellow-500 mb-1">
                   Final Project PWA
                 </h2>
@@ -173,7 +173,7 @@ export default function Projects() {
                 class="absolute inset-0 w-full h-full object-cover object-center"
                 src={kkn}
               />
-              <a href="https://desaklikiran-381b3.web.app/"><div class="px-8 py-10 relative z-10 w-full border-4 border-gray-200 bg-white opacity-0 hover:opacity-100">
+              <a href="https://desaklikiran-381b3.web.app/" target="_blank"><div class="px-8 py-10 relative z-10 w-full border-4 border-gray-200 bg-white opacity-0 hover:opacity-100">
                 <h2 class="tracking-widest text-sm title-font font-medium text-yellow-500 mb-1">
                 Profile Website
                 </h2>
