@@ -73,7 +73,7 @@ export default function Projects() {
                 class="absolute inset-0 w-full h-full object-cover object-center"
                 src={bercak}
               />
-              <div class="px-8 py-10 relative z-10 w-full border-4 border-gray-200 bg-white opacity-0 hover:opacity-100">
+              <a href="https://desabercakboyolali.web.app/"><div class="px-8 py-10 relative z-10 w-full border-4 border-gray-200 bg-white opacity-0 hover:opacity-100">
                 <h2 class="tracking-widest text-sm title-font font-medium text-yellow-500 mb-1">
                   Profile Website
                 </h2>
@@ -83,7 +83,7 @@ export default function Projects() {
                 <p class="leading-relaxed">
                   Created a profile village of bercak for KKN task using reactJS and Tailwind CSS .
                 </p>
-              </div>
+              </div></a>
             </div>
           </div>
           <div class="lg:w-1/3 sm:w-1/2 p-4">
@@ -93,7 +93,7 @@ export default function Projects() {
                 class="absolute inset-0 w-full h-full object-cover object-center"
                 src={madani}
               />
-              <div class="px-8 py-10 relative z-10 w-full border-4 border-gray-200 bg-white opacity-0 hover:opacity-100">
+              <a href="https://bit.ly/PrototipeMadani"><div class="px-8 py-10 relative z-10 w-full border-4 border-gray-200 bg-white opacity-0 hover:opacity-100">
                 <h2 class="tracking-widest text-sm title-font font-medium text-yellow-500 mb-1">
                   UI/UX Competition
                 </h2>
@@ -103,7 +103,7 @@ export default function Projects() {
                 <p class="leading-relaxed">
                   Created for UI/UX Competition for MTQMN using figma and developed with design thinking.
                 </p>
-              </div>
+              </div></a>
             </div>
           </div>
           <div class="lg:w-1/3 sm:w-1/2 p-4">
@@ -133,7 +133,7 @@ export default function Projects() {
                 class="absolute inset-0 w-full h-full object-cover object-center"
                 src={porto}
               />
-              <div class="px-8 py-10 relative z-10 w-full border-4 border-gray-200 bg-white opacity-0 hover:opacity-100">
+              <a href="https://test1.spcplcpmk.com/login"><div class="px-8 py-10 relative z-10 w-full border-4 border-gray-200 bg-white opacity-0 hover:opacity-100">
                 <h2 class="tracking-widest text-sm title-font font-medium text-yellow-500 mb-1">
                   Capstone Project
                 </h2>
@@ -143,7 +143,7 @@ export default function Projects() {
                 <p class="leading-relaxed">
                   Created website SPCPLCPMK for Capstone, and my role is front-end developer.
                 </p>
-              </div>
+              </div></a>
             </div>
           </div>
           <div class="lg:w-1/3 sm:w-1/2 p-4">
@@ -153,7 +153,7 @@ export default function Projects() {
                 class="absolute inset-0 w-full h-full object-cover object-center"
                 src={foody}
               />
-              <div class="px-8 py-10 relative z-10 w-full border-4 border-gray-200 bg-white opacity-0 hover:opacity-100">
+              <a href="foody-culinary.vercel.app"></a><div class="px-8 py-10 relative z-10 w-full border-4 border-gray-200 bg-white opacity-0 hover:opacity-100">
                 <h2 class="tracking-widest text-sm title-font font-medium text-yellow-500 mb-1">
                   Final Project PWA
                 </h2>
@@ -173,7 +173,7 @@ export default function Projects() {
                 class="absolute inset-0 w-full h-full object-cover object-center"
                 src={kkn}
               />
-              <div class="px-8 py-10 relative z-10 w-full border-4 border-gray-200 bg-white opacity-0 hover:opacity-100">
+              <a href="https://desaklikiran-381b3.web.app/"><div class="px-8 py-10 relative z-10 w-full border-4 border-gray-200 bg-white opacity-0 hover:opacity-100">
                 <h2 class="tracking-widest text-sm title-font font-medium text-yellow-500 mb-1">
                 Profile Website
                 </h2>
@@ -183,7 +183,7 @@ export default function Projects() {
                 <p class="leading-relaxed">
                 Created a profile village of klikiran for KKN task using reactJS and Tailwind CSS.
                 </p>
-              </div>
+              </div></a>
             </div>
           </div>
         
