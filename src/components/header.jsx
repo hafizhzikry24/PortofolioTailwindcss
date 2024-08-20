@@ -242,7 +242,7 @@ import React from "react";
 
 export default function Header() {
   return (
-    <header class="text-white body-font bg-gray-800  ">
+    <header class="text-white body-font bg-gray-800 sticky top-0 z-10">
       <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
         <a class="flex title-font font-medium items-center textwhite mb-4 md:mb-0">
           {/* <svg
