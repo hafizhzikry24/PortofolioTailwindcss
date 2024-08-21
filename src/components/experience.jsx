@@ -70,6 +70,26 @@ export default function Experience() {
               
             </div>
           </div>
+          <div class="py-8 flex flex-wrap md:flex-nowrap">
+            <div class="md:w-64 md:mb-0 mb-6 flex-shrink-0 flex flex-col">
+              <span class="font-semibold title-font text-gray-700">
+                PT. Awan Network Indonesia
+              </span>
+              <span class="text-sm text-gray-500">Ags 2024 - Nov 2024</span>
+            </div>
+            <div class="md:flex-grow">
+              <h2 class="text-2xl font-medium text-gray-900 title-font mb-2">
+                Back End Developer
+              </h2>
+              <p class="leading-relaxed">
+              As a  Backend Developer at PT Awan Network Indonesia, I developing and optimizing APIs for 
+              seamless integration between the application and the website with my team. My responsibilities included ensuring efficient backend 
+              performance, implementing scalable solutions, and collaborating with cross-functional teams to deliver a robust and secure 
+              platform that enhances user interaction and functionality. 
+            </p>
+              
+            </div>
+          </div>
         </div>
       </div>
     </section>

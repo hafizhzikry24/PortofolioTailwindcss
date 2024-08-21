@@ -73,7 +73,7 @@ const About = ({ theme }) => {
 
     <section
       class="text-gray-600 body-font overflow-hidden bg-slate-100"
-      id="experience"
+      id="about"
     >
       <div class="container px-5 py-28 mx-auto text-justify">
         <div className="flex flex-col justify-center items-center w-full h-full shadow-box-shadow p-2 rounded-3xl mt-20 text-justify bg-slate-100 text-[#7c8cc2]">
