@@ -1,5 +1,5 @@
 import React from "react";
-import design from "../assets/design.png";
+import design from "../assets/graduate.jpg";
 import { AnimationOnScroll } from "react-animation-on-scroll";
 import js from "../assets/js.png";
 import react from "../assets/react.png";
@@ -75,7 +75,7 @@ const About = ({ theme }) => {
       class="text-gray-600 body-font overflow-hidden bg-slate-100"
       id="about"
     >
-      <div class="container px-5 py-28 mx-auto text-justify">
+      <div class="container py-28 mx-auto text-justify">
         <div className="flex flex-col justify-center items-center w-full h-full shadow-box-shadow p-2 rounded-3xl mt-20 text-justify bg-slate-100 text-[#7c8cc2]">
           <div className="max-w-[1000px] w-full grid grid-cols-2 gap-8">
             <AnimationOnScroll animateIn="animate__fadeInLeftBig">
@@ -98,9 +98,9 @@ const About = ({ theme }) => {
               </div>
             </AnimationOnScroll>
             <AnimationOnScroll animateIn="animate__fadeInLeftBig">
-              <div>
+              <div className="mb-4">
                 <AnimationOnScroll animateIn="animate__tada">
-                  <img src={design} alt="" className="h-13 animate-bounce mx-auto " />
+                  <img src={design} alt="" className="h-13 mx-auto " />
                 </AnimationOnScroll>
                 <p className="leading-relaxed text-2xl md:text-3xl sm:text-xl ">
                   Creative software developer and network engineer with more
@@ -111,7 +111,7 @@ const About = ({ theme }) => {
             </AnimationOnScroll>
           </div>
         </div>
-        <div className=" grid grid-cols-3 lg:grid-cols-9 mt-12 mb-12 gap-5 mx-5  justify-center">
+        <div className=" grid grid-cols-3 lg:grid-cols-9 mt-24 px-12 gap-5 mx-auto  animate-bounce justify-center">
           <img src={js} title="JavaScript" alt="" />
           <img src={css} title="CSS" alt="" />
           <img src={html} title="HTML" alt="" />
