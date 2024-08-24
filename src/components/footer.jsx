@@ -2,7 +2,7 @@ import React from "react";
 
 export default function Footer(){
     return (
-        <footer class="text-gray-400 bg-gray-700 body-font">
+        <footer class="bg-gradient-to-r from-gray-800 via-gray-900">
         
         <div class="bg-gray-800 bg-opacity-75">
           <div class="container px-5 py-6 mx-auto flex items-center sm:flex-row flex-col">

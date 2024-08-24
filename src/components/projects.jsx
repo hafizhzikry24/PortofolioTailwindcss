@@ -6,187 +6,86 @@ import bercak from "../assets/Bercak.png";
 import madani from "../assets/Madani.png";
 import KP from "../assets/KP.png";
 
-
-
 export default function Projects() {
   return (
-    // <section id="portfolio" class="bg-slate-100 pt-36 pb-16 dark:bg-slate-800 min-h-screen">
-    //   <div class="container px-5 mx-auto">
-    //     <div class="w-full px-4">
-    //       <div class="mx-auto mb-16 max-w-xl text-center">
-    //         <h4 class="mb-2 text-lg font-semibold text-primary">Portfolio</h4>
-    //         <h2 class="mb-4 text-3xl font-bold text-dark dark:text-white sm:text-4xl lg:text-5xl">Project Terbaru</h2>
-    //         <p class="text-md font-medium text-secondary md:text-lg">
-    //           Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptatibus porro consequuntur alias, commodi nemo enim aliquam ipsam obcaecati? Assumenda, ipsam?
-    //         </p>
-    //       </div>
-    //     </div>
-
-    //     <div class="flex w-full flex-wrap justify-center px-4 xl:mx-auto xl:w-10/12">
-    //       <div class="mb-12 p-4 md:w-1/2">
-    //         <div class="overflow-hidden rounded-md shadow-md">
-    //           <img src={porto} alt="Landing Page" width="w-full" />
-    //         </div>
-    //         <h3 class="mt-5 mb-3 text-xl font-semibold text-dark dark:text-white">Landing Page Sandhika Galih</h3>
-    //         <p class="text-base font-medium text-secondary">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eius, iusto! Aliquam, corporis.</p>
-    //       </div>
-    //       <div class="mb-12 p-4 md:w-1/2">
-    //         <div class="overflow-hidden rounded-md shadow-md">
-    //           <img src={foody} alt="E-Commerce" width="w-full" />
-    //         </div>
-    //         <h3 class="mt-5 mb-3 text-xl font-semibold text-dark dark:text-white">E-Commerce</h3>
-    //         <p class="text-base font-medium text-secondary">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eius, iusto! Aliquam, corporis.</p>
-    //       </div>
-    //       <div class="mb-12 p-4 md:w-1/2">
-    //         <div class="overflow-hidden rounded-md shadow-md">
-    //           <img src={porto} alt="Technical Documentation" width="w-full" />
-    //         </div>
-    //         <h3 class="mt-5 mb-3 text-xl font-semibold text-dark dark:text-white">Technical Documentation</h3>
-    //         <p class="text-base font-medium text-secondary">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eius, iusto! Aliquam, corporis.</p>
-    //       </div>
-    //       <div class="mb-12 p-4 md:w-1/2">
-    //         <div class="overflow-hidden rounded-md shadow-md">
-    //           <img src="dist/img/portfolio/4.png" alt="Tribute Page" width="w-full" />
-    //         </div>
-    //         <h3 class="mt-5 mb-3 text-xl font-semibold text-dark dark:text-white">Tribute Page</h3>
-    //         <p class="text-base font-medium text-secondary">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eius, iusto! Aliquam, corporis.</p>
-    //       </div>
-    //     </div>
-    //   </div>
-    // </section>
-
-    <section class="text-gray-600 body-font ">
-      <div class="container px-5 py-24 mx-auto min-h-screen" id="projects">
-        <div class="flex flex-col text-center w-full mb-20 my-8">
-          <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">
+    <section className="text-gray-600 body-font bg-gradient-to-r from-gray-50 via-gray-100 to-gray-200 py-16" id="projects">
+      <div className="container px-5 py-32 mx-auto min-h-screen sm:py-24">
+        <div className="text-center mb-20">
+          <h1 className="text-3xl font-extrabold text-gray-900 mb-4 animate__animated animate__fadeIn">
             My Projects
           </h1>
-          <p class="lg:w-2/3 mx-auto leading-relaxed text-base">
-          This is a project that I made while studying in the IT field, I made this project for college and internship needs to develop hard skills, I got this project from college assignments, practical work, and research.
+          <p className="lg:w-2/3 mx-auto leading-relaxed text-base text-gray-700 animate__animated animate__fadeIn animate__delay-1s">
+            This is a project that I made while studying in the IT field. These projects were created for college and internship needs to develop hard skills, including college assignments, practical work, and research.
           </p>
         </div>
-        <div class="flex flex-wrap -m-4 py-8 text-justify">
-          <div class="lg:w-1/3 sm:w-1/2 p-4">
-            <div class="flex relative">
-              <img
-                alt="gallery"
-                class="absolute inset-0 w-full h-full object-cover object-center"
-                src={bercak}
-              />
-              <a href="https://desabercakboyolali.web.app/" target="_blank"><div class="px-8 py-10 relative z-10 w-full border-4 border-gray-200 bg-white opacity-0 hover:opacity-100">
-                <h2 class="tracking-widest text-sm title-font font-medium text-yellow-500 mb-1">
-                  Profile Website
-                </h2>
-                <h1 class="title-font text-lg font-medium text-gray-900 mb-3">
-                  BLOG Bercak Village
-                </h1>
-                <p class="leading-relaxed">
-                  Created a profile village of bercak for KKN task using reactJS and Tailwind CSS .
-                </p>
-              </div></a>
-            </div>
-          </div>
-          <div class="lg:w-1/3 sm:w-1/2 p-4">
-            <div class="flex relative">
-              <img
-                alt="gallery"
-                class="absolute inset-0 w-full h-full object-cover object-center"
-                src={madani}
-              />
-              <a href="https://bit.ly/PrototipeMadani" target="_blank"><div class="px-8 py-10 relative z-10 w-full border-4 border-gray-200 bg-white opacity-0 hover:opacity-100">
-                <h2 class="tracking-widest text-sm title-font font-medium text-yellow-500 mb-1">
-                  UI/UX Competition
-                </h2>
-                <h1 class="title-font text-lg font-medium text-gray-900 mb-3">
-                  Madani
-                </h1>
-                <p class="leading-relaxed">
-                  Created for UI/UX Competition for MTQMN using figma and developed with design thinking.
-                </p>
-              </div></a>
-            </div>
-          </div>
-          <div class="lg:w-1/3 sm:w-1/2 p-4">
-            <div class="flex relative">
-              <img
-                alt="gallery"
-                class="absolute inset-0 w-full h-full object-cover object-center"
-                src={KP}
-              />
-              <div class="px-8 py-10 relative z-10 w-full border-4 border-gray-200 bg-white opacity-0 hover:opacity-100">
-                <h2 class="tracking-widest text-sm title-font font-medium text-yellow-500 mb-1">
-                  Internship
-                </h2>
-                <h1 class="title-font text-lg font-medium text-gray-900 mb-3">
-                  Network Enginner
-                </h1>
-                <p class="leading-relaxed">
-                NETWORK DESIGN AND RECONFIGURATION LABORATORY 2 STATE VOCATIONAL SCHOOL 53 JAKARTA.
-                </p>
+        <div className="flex flex-wrap -m-4 text-justify">
+          {[
+            {
+              src: bercak,
+              title: "BLOG Bercak Village",
+              category: "Profile Website",
+              description: "Created a profile village of Bercak for KKN task using ReactJS and Tailwind CSS.",
+              link: "https://desabercakboyolali.web.app/"
+            },
+            {
+              src: madani,
+              title: "Madani",
+              category: "UI/UX Competition",
+              description: "Created for UI/UX Competition for MTQMN using Figma and developed with design thinking.",
+              link: "https://bit.ly/PrototipeMadani"
+            },
+            {
+              src: KP,
+              title: "Network Engineer",
+              category: "Internship",
+              description: "NETWORK DESIGN AND RECONFIGURATION LABORATORY 2 STATE VOCATIONAL SCHOOL 53 JAKARTA.",
+              link: "#"
+            },
+            {
+              src: porto,
+              title: "SPCPLCPMK",
+              category: "Capstone Project",
+              description: "Created website SPCPLCPMK for Capstone, and my role is front-end developer.",
+              link: "https://test1.spcplcpmk.com/login"
+            },
+            {
+              src: foody,
+              title: "FOODY",
+              category: "Final Project PWA",
+              description: "Created PWA App recipe food with Next.js and Tailwind CSS.",
+              link: "https://foody-culinary.vercel.app/"
+            },
+            {
+              src: kkn,
+              title: "Blog Klikiran Village",
+              category: "Profile Website",
+              description: "Created a profile village of Klikiran for KKN task using ReactJS and Tailwind CSS.",
+              link: "https://desaklikiran-381b3.web.app/"
+            }
+          ].map((item, index) => (
+            <div key={index} className="lg:w-1/3 sm:w-1/2 p-4 transition-transform transform hover:scale-105 hover:shadow-lg duration-300 ease-in-out">
+              <div className="relative flex flex-col bg-white rounded-lg shadow-md overflow-hidden">
+                <img
+                  alt="gallery"
+                  className="w-full h-64 object-cover object-center bg-white"
+                  src={item.src}
+                />
+                <a href={item.link} target="_blank" rel="noopener noreferrer">
+                  <div className="p-6 flex flex-col h-full">
+                    <h2 className="tracking-widest text-sm title-font font-medium text-yellow-500 mb-1">
+                      {item.category}
+                    </h2>
+                    <h1 className="title-font text-lg font-medium text-gray-900 mb-3">
+                      {item.title}
+                    </h1>
+                    <p className="leading-relaxed text-gray-600">
+                      {item.description}
+                    </p>
+                  </div>
+                </a>
               </div>
             </div>
-          </div>
-          <div class="lg:w-1/3 sm:w-1/2 p-4">
-            <div class="flex relative">
-              <img
-                alt="gallery"
-                class="absolute inset-0 w-full h-full object-cover object-center"
-                src={porto}
-              />
-              <a href="https://test1.spcplcpmk.com/login" target="_blank"><div class="px-8 py-10 relative z-10 w-full border-4 border-gray-200 bg-white opacity-0 hover:opacity-100">
-                <h2 class="tracking-widest text-sm title-font font-medium text-yellow-500 mb-1">
-                  Capstone Project
-                </h2>
-                <h1 class="title-font text-lg font-medium text-gray-900 mb-3">
-                  SPCPLCPMK
-                </h1>
-                <p class="leading-relaxed">
-                  Created website SPCPLCPMK for Capstone, and my role is front-end developer.
-                </p>
-              </div></a>
-            </div>
-          </div>
-          <div class="lg:w-1/3 sm:w-1/2 p-4">
-            <div class="flex relative">
-              <img
-                alt="gallery"
-                class="absolute inset-0 w-full h-full object-cover object-center"
-                src={foody}
-              />
-              <a href="foody-culinary.vercel.app" target="_blank"></a><div class="px-8 py-10 relative z-10 w-full border-4 border-gray-200 bg-white opacity-0 hover:opacity-100">
-                <h2 class="tracking-widest text-sm title-font font-medium text-yellow-500 mb-1">
-                  Final Project PWA
-                </h2>
-                <h1 class="title-font text-lg font-medium text-gray-900 mb-3">
-                  FOODY
-                </h1>
-                <p class="leading-relaxed">
-                  Created PWA App reciept food with Next.js and tailwind css.
-                </p>
-              </div>
-            </div>
-          </div>
-          <div class="lg:w-1/3 sm:w-1/2 p-4">
-            <div class="flex relative">
-              <img
-                alt="gallery"
-                class="absolute inset-0 w-full h-full object-cover object-center"
-                src={kkn}
-              />
-              <a href="https://desaklikiran-381b3.web.app/" target="_blank"><div class="px-8 py-10 relative z-10 w-full border-4 border-gray-200 bg-white opacity-0 hover:opacity-100">
-                <h2 class="tracking-widest text-sm title-font font-medium text-yellow-500 mb-1">
-                Profile Website
-                </h2>
-                <h1 class="title-font text-lg font-medium text-gray-900 mb-3">
-                  Blog Klikiran Village
-                </h1>
-                <p class="leading-relaxed">
-                Created a profile village of klikiran for KKN task using reactJS and Tailwind CSS.
-                </p>
-              </div></a>
-            </div>
-          </div>
-        
+          ))}
         </div>
       </div>
     </section>
