@@ -92,7 +92,7 @@ import Profile from "../assets/profile.png";
 
 function Content() {
   return (
-    <section className="text-gray-500 body-font bg-gradient-to-r sm:py-48 from-gray-800 to-gray-900" id="content">
+    <section className="text-gray-500 body-font bg-gradient-to-r py-28 sm:py-36 from-gray-800 to-gray-900" id="content">
       <div className="container mx-auto flex flex-col-reverse lg:flex-row items-center py-12 px-6 lg:px-12">
         {/* Text Section */}
         <div className="lg:w-1/2 w-full lg:pr-12 mb-8 lg:mb-0">

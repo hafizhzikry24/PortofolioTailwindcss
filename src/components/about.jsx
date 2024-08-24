@@ -89,11 +89,11 @@ import laravel from "../assets/laravel.png";
 const About = ({ theme }) => {
   return (
     <section
-      className="text-gray-600 body-font overflow-hidden bg-slate-100 py-16"
+      className="text-gray-600 body-font overflow-hidden bg-slate-100 py-40 sm:py-2"
       id="about"
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col justify-center items-center w-full h-full bg-white p-8 rounded-2xl shadow-lg text-gray-800">
+        <div className="flex flex-col justify-center items-center w-full h-full bg-white p-8 rounded-2xl shadow-lg text-gray-800 ">
           <div className="text-center mb-12">
             <p className="text-4xl font-bold inline border-b-4 border-pink-600 mb-4">
               About
