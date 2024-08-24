@@ -1,9 +1,32 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 export default function Experience() {
+  useEffect(() => {
+    const cards = document.querySelectorAll('.experience-card');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('transform', 'scale-105');
+        } else {
+          entry.target.classList.remove('transform', 'scale-105');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    cards.forEach(card => {
+      observer.observe(card);
+    });
+
+    return () => {
+      cards.forEach(card => {
+        observer.unobserve(card);
+      });
+    };
+  }, []);
+
   return (
-    <section className="text-gray-600 body-font bg-slate-100 py-16" id="experience">
-      <div className="container px-5 py-24 mx-auto text-center sm:py-28">
+    <section className="text-gray-600 body-font  bg-gradient-to-r from-gray-50 via-gray-100 py-16" id="experience">
+      <div className="container px-5 py-16 mx-auto text-center sm:py-28">
         <div className="mb-20">
           <h1 className="sm:text-4xl text-3xl font-extrabold text-gray-900 mb-4 animate__animated animate__fadeIn">
             Experience
@@ -12,7 +35,7 @@ export default function Experience() {
             This is my experience while studying at Diponegoro University.
           </p>
         </div>
-        <div className="space-y-8">
+        <div className="space-y-16">
           {[
             {
               company: "SMKN 53 Jakarta",
@@ -39,7 +62,10 @@ export default function Experience() {
               description: "As a Backend Developer at PT Awan Network Indonesia, I developed and optimized APIs for seamless integration between the application and the website with my team. My responsibilities included ensuring efficient backend performance, implementing scalable solutions, and collaborating with cross-functional teams to deliver a robust and secure platform that enhances user interaction and functionality."
             },
           ].map((item, index) => (
-            <div key={index} className="p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 ease-in-out transform hover:-translate-y-2 animate__animated animate__fadeIn animate__delay-2s">
+            <div
+              key={index}
+              className="experience-card p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-500 ease-in-out transform hover:-translate-y-1 animate__animated animate__fadeIn animate__delay-5s"
+            >
               <div className="flex items-center mb-4">
                 <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center text-gray-700 text-lg font-bold mr-4">
                   {item.company.charAt(0)}
