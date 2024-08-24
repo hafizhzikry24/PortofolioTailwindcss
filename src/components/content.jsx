@@ -87,6 +87,7 @@
 
 import React from "react";
 import Profile from "../assets/graduated.jpg";
+import { BiLogoGmail } from "react-icons/bi";
 
 function Content() {
   return (
@@ -132,7 +133,7 @@ function Content() {
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth="2"
-                className="w-6 h-6 text-gray-300 hover:text-blue-500 transition-transform transform hover:scale-110"
+                className="w-6 h-6 text-gray-300 hover:text-purple-400 transition-transform transform hover:scale-110"
                 viewBox="0 0 24 24"
               >
                 <rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect>
@@ -146,12 +147,15 @@ function Content() {
             >
               <svg
                 fill="currentColor"
-                className="w-6 h-6 text-gray-300 hover:text-blue-500 transition-transform transform hover:scale-110"
+                className="w-6 h-6 text-gray-300 hover:text-purple-400 transition-transform transform hover:scale-110"
                 viewBox="0 0 24 24"
               >
                 <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"></path>
                 <circle cx="4" cy="4" r="2"></circle>
               </svg>
+            </a>
+            <a href="mailto:hafizhcool24@gmail.com" >
+              <BiLogoGmail className="w-6 h-6 text-gray-300 hover:text-purple-400 transition-transform transform hover:scale-110"/>
             </a>
             <a
               href="https://github.com/hafizhzikry24/"
@@ -160,7 +164,7 @@ function Content() {
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="w-6 h-6 text-gray-300 hover:text-gray-400 transition-transform transform hover:scale-110"
+                className="w-6 h-6 text-gray-300 hover:text-purple-400 transition-transform transform hover:scale-110"
                 viewBox="0 0 16 16"
                 fill="currentColor"
               >

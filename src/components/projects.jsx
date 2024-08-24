@@ -9,7 +9,7 @@ import KP from "../assets/KP.png";
 export default function Projects() {
   return (
     <section
-      className="text-gray-600 body-font bg-gradient-to-r from-gray-50 via-gray-100 to-gray-200 py-16"
+      className="text-gray-600 body-font bg-gradient-to-r from-slate-100 via-slate-200 to-gray-200 py-16"
       id="projects"
     >
       <div className="container px-5 py-16 mx-auto min-h-screen sm:py-24">

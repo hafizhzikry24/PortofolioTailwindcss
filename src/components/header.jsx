@@ -50,7 +50,7 @@ const Header = () => {
             to="content"
             smooth={true}
             duration={500}
-            className="hover:text-indigo-400 cursor-pointer transition-colors duration-300"
+            className="hover:text-purple-400 text-purple-300 cursor-pointer transition-colors duration-300 "
           >
             Intro
           </Link>
@@ -58,7 +58,7 @@ const Header = () => {
             to="about"
             smooth={true}
             duration={500}
-            className="hover:text-indigo-400 cursor-pointer transition-colors duration-300"
+            className="hover:text-purple-400 text-purple-300 cursor-pointer transition-colors duration-300"
           >
             About
           </Link>
@@ -66,7 +66,7 @@ const Header = () => {
             to="experience"
             smooth={true}
             duration={500}
-            className="hover:text-indigo-400 cursor-pointer transition-colors duration-300"
+            className="hover:text-purple-400 text-purple-300 cursor-pointer transition-colors duration-300"
           >
             Experience
           </Link>
@@ -74,7 +74,7 @@ const Header = () => {
             to="projects"
             smooth={true}
             duration={500}
-            className="hover:text-indigo-400 cursor-pointer transition-colors duration-300"
+            className="hover:text-purple-400 text-purple-300 cursor-pointer transition-colors duration-300"
           >
             Projects
           </Link>

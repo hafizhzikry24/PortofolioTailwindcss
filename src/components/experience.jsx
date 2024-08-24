@@ -7,8 +7,10 @@ export default function Experience() {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           entry.target.classList.add('transform', 'scale-105');
+          entry.target.classList.remove('opacity-0');
         } else {
           entry.target.classList.remove('transform', 'scale-105');
+          entry.target.classList.add('opacity-0');
         }
       });
     }, { threshold: 0.1 });
@@ -25,7 +27,7 @@ export default function Experience() {
   }, []);
 
   return (
-    <section className="text-gray-600 body-font  bg-gradient-to-r from-gray-50 via-gray-100 py-16" id="experience">
+    <section className="text-gray-600 body-font bg-gradient-to-r from-gray-50 via-gray-100 py-16" id="experience">
       <div className="container px-5 py-16 mx-auto text-center sm:py-28">
         <div className="mb-20">
           <h1 className="sm:text-4xl text-3xl font-extrabold text-gray-900 mb-4 animate__animated animate__fadeIn">
@@ -47,7 +49,7 @@ export default function Experience() {
               company: "MTQMN XVII at Malang",
               period: "Nov 2023",
               role: "UI/UX Design",
-              description: "Became first winner in the Diponegoro University MTQM in the Al-Quran Application Design competition with design thinking and had the right to represent Diponegoro University in the National MTQM at Brawijaya University, Malang, and Together with my team, we had the opportunity among 50 representatives from universities across Indonesia to present the Design of the Quran Application before the jury in the national competition 'Musabaqah Tilawatil Quran Mahasiswa Nasional' at Brawijaya University, Malang, and we finished top 18."
+              description: "Won first place in the Diponegoro University MTQM Al-Qur'an Application Design competition, representing the university at the National MTQM at Brawijaya University, Malang. Our team, out of 50 university representatives, presented the Quran Application Design and finished in the top 18."
             },
             {
               company: "Diponegoro University",
@@ -64,7 +66,7 @@ export default function Experience() {
           ].map((item, index) => (
             <div
               key={index}
-              className="experience-card p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-500 ease-in-out transform hover:-translate-y-1 animate__animated animate__fadeIn animate__delay-5s"
+              className="experience-card p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-500 ease-in-out transform opacity-0 hover:scale-110 animate__animated animate__fadeIn"
             >
               <div className="flex items-center mb-4">
                 <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center text-gray-700 text-lg font-bold mr-4">
