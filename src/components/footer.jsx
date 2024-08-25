@@ -53,7 +53,7 @@ const Footer = () => {
 
   return (
     <footer className="bg-gray-900 text-white py-5 sm:py-12 rounded-xl " id="contact">
-      <div className="container mx-auto flex flex-col md:flex-row justify-around items-center px-5 animate-fadeInUp py-5">
+      <div className="container mx-auto flex flex-col md:flex-row justify-around items-center px-5 animate-fadeInUp ">
         <div className="flex items-center mb-6 md:mb-0">
           <img
             className="w-28 sm:w-32 shadow-xl transform transition-transform duration-300 hover:scale-105"
