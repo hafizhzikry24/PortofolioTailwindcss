@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import MyLogo from "../assets/mylogo.png";
 
 import { TiThMenuOutline } from "react-icons/ti";
 import { Link } from 'react-scroll';
@@ -18,11 +19,17 @@ const Header = () => {
       <div className="container mx-auto flex flex-wrap p-3 flex-col md:flex-row items-center sm:p-5">
         <div className="flex w-full justify-between items-center md:w-auto mb-2">
           {/* Logo text - position on the right for mobile */}
-          <a className="flex title-font font-medium items-center ml-5 text-white">
+
+          <img
+            className="w-28 h sm:w-32 sm:h-7 shadow-xl transition-transform duration-1000 ease-in-out transform hover:scale-110 hover:rotate-3"
+            src={MyLogo}
+            alt="logo"
+          />
+          {/* <a className="flex title-font font-medium items-center ml-5 text-white">
             <span className="text-2xl font-bold tracking-wide bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-purple-500">
               ZikkDev
             </span>
-          </a>
+          </a> */}
 
           {/* Button for mobile menu - position on the left */}
           <button

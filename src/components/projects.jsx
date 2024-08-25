@@ -5,8 +5,101 @@ import kkn from "../assets/13.png";
 import bercak from "../assets/Bercak.png";
 import madani from "../assets/Madani.png";
 import KP from "../assets/KP.png";
+import { useInView } from "react-intersection-observer";
+
+const ProjectCard = ({ project }) => {
+  const { ref, inView } = useInView({
+    triggerOnce: false,
+    threshold: 0.1,
+  });
+
+  return (
+    <div
+      ref={ref}
+      className={`lg:w-1/3 sm:w-1/2 p-4 mb-4 sm:mb-0 transition-transform transform ${
+        inView ? "opacity-100 translate-y-0 scale-105 shadow-lg" : "opacity-0 translate-y-10"
+      } duration-700 ease-in-out`}
+    >
+      <div className="relative flex flex-col bg-white rounded-lg shadow-md overflow-hidden h-full">
+        <img
+          alt="gallery"
+          className="w-full h-64 object-cover object-center bg-white"
+          src={project.src}
+        />
+        <a
+          href={project.link}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <div className="p-6 flex flex-col h-full">
+            <h2 className="tracking-widest text-sm title-font font-medium text-yellow-500 mb-1">
+              {project.category}
+            </h2>
+            <h1 className="title-font text-lg font-medium text-gray-900 mb-3">
+              {project.title}
+            </h1>
+            <p className="leading-relaxed text-gray-600 flex-grow">
+              {project.description}
+            </p>
+          </div>
+        </a>
+      </div>
+    </div>
+  );
+};
 
 export default function Projects() {
+  const projects = [
+    {
+      src: bercak,
+      title: "BLOG Bercak Village",
+      category: "Profile Website",
+      description:
+        "Created a profile village of Bercak for KKN task using ReactJS and Tailwind CSS.",
+      link: "https://desabercakboyolali.web.app/",
+    },
+    {
+      src: madani,
+      title: "Madani",
+      category: "UI/UX Competition",
+      description:
+        "Created for UI/UX Competition for MTQMN using Figma and developed with design thinking.",
+      link: "https://bit.ly/PrototipeMadani",
+    },
+    {
+      src: KP,
+      title: "Network Engineer",
+      category: "Internship",
+      description:
+        "NETWORK DESIGN AND RECONFIGURATION LABORATORY 2 STATE VOCATIONAL SCHOOL 53 JAKARTA.",
+      link: "#",
+    },
+    {
+      src: porto,
+      title: "SPCPLCPMK",
+      category: "Capstone Project",
+      description:
+        "Created website SPCPLCPMK for Capstone, and my role is front-end developer.",
+      link: "https://test1.spcplcpmk.com/login",
+    },
+    {
+      src: foody,
+      title: "FOODY",
+      category: "Final Project PWA",
+      description:
+        "Created PWA App recipe food with Next.js and Tailwind CSS.",
+      link: "https://foody-culinary.vercel.app/",
+    },
+    {
+      src: kkn,
+      title: "Blog Klikiran Village",
+      category: "Profile Website",
+      description:
+        "Created a profile village of Klikiran for KKN task using ReactJS and Tailwind CSS.",
+      link: "https://desaklikiran-381b3.web.app/",
+    },
+  ];
+
   return (
     <section
       className="text-gray-600 body-font bg-gradient-to-r from-slate-100 via-slate-200 to-gray-200 py-16"
@@ -22,85 +115,8 @@ export default function Projects() {
           </p>
         </div>
         <div className="flex flex-wrap -m-4 text-justify">
-          {[
-            {
-              src: bercak,
-              title: "BLOG Bercak Village",
-              category: "Profile Website",
-              description:
-                "Created a profile village of Bercak for KKN task using ReactJS and Tailwind CSS.",
-              link: "https://desabercakboyolali.web.app/",
-            },
-            {
-              src: madani,
-              title: "Madani",
-              category: "UI/UX Competition",
-              description:
-                "Created for UI/UX Competition for MTQMN using Figma and developed with design thinking.",
-              link: "https://bit.ly/PrototipeMadani",
-            },
-            {
-              src: KP,
-              title: "Network Engineer",
-              category: "Internship",
-              description:
-                "NETWORK DESIGN AND RECONFIGURATION LABORATORY 2 STATE VOCATIONAL SCHOOL 53 JAKARTA.",
-              link: "#",
-            },
-            {
-              src: porto,
-              title: "SPCPLCPMK",
-              category: "Capstone Project",
-              description:
-                "Created website SPCPLCPMK for Capstone, and my role is front-end developer.",
-              link: "https://test1.spcplcpmk.com/login",
-            },
-            {
-              src: foody,
-              title: "FOODY",
-              category: "Final Project PWA",
-              description:
-                "Created PWA App recipe food with Next.js and Tailwind CSS.",
-              link: "https://foody-culinary.vercel.app/",
-            },
-            {
-              src: kkn,
-              title: "Blog Klikiran Village",
-              category: "Profile Website",
-              description:
-                "Created a profile village of Klikiran for KKN task using ReactJS and Tailwind CSS.",
-              link: "https://desaklikiran-381b3.web.app/",
-            },
-          ].map((item, index) => (
-            <div
-              key={index}
-              className="lg:w-1/3 sm:w-1/2 p-4 mb-4 sm:mb-0 transition-transform transform hover:scale-105 hover:shadow-lg duration-300 ease-in-out"
-            >
-              <div className="relative flex flex-col bg-white rounded-lg shadow-md overflow-hidden">
-                <img
-                  alt="gallery"
-                  className="w-full h-64 object-cover object-center bg-white"
-                  src={item.src}
-                />
-                <a
-                  href={item.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <div className="p-6 flex flex-col h-full mb-3">
-                    <h2 className="tracking-widest text-sm title-font font-medium text-yellow-500 mb-1">
-                      {item.category}
-                    </h2>
-                    <h1 className="title-font text-lg font-medium text-gray-900 mb-3">
-                      {item.title}
-                    </h1>
-                    <p className="leading-relaxed text-gray-600">
-                      {item.description}
-                    </p>
-                  </div>
-                </a>
-              </div>
-            </div>
+          {projects.map((project, index) => (
+            <ProjectCard key={index} project={project} />
           ))}
         </div>
       </div>

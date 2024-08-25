@@ -1,5 +1,6 @@
 import React from "react";
 import { FiTwitter, FiMail, FiGithub, FiLinkedin } from "react-icons/fi";
+import MyLogo from "../assets/mylogo.png"
 
 export default function Footer() {
   return (
@@ -19,18 +20,22 @@ export default function Footer() {
             >
               <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
             </svg> */}
-            <span className="text-2xl font-bold tracking-wide bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-purple-500">ZikkDev</span>
+            <img
+            className="w-28 sm:w-32 sm:h-7 shadow-xl transition-transform duration-1000 ease-in-out transform hover:scale-110 hover:rotate-3"
+            src={MyLogo}
+            alt="logo"
+          />
           </a>
           
           <p className="text-sm text-purple-200">
             © 2024 Muhammad Hafizh Zikry — 
             <a
               href="mailto:hafizhcool24@gmail.com"
-              className="text-pink-200 ml-1 hover:text-pink-100"
+              className="text-pink-200 ml-1 font-bold hover:text-pink-100"
               target="_blank"
               rel="noopener noreferrer"
             >
-              hafizhcool24@gmail.com
+              Hire Me
             </a>
           </p>
           

@@ -15,7 +15,7 @@ const App = () => {
       <Experience/>
       <Projects/>
       <Footer/>
-      
+
     </>
   );
 };

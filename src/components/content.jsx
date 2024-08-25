@@ -88,14 +88,27 @@
 import React from "react";
 import Profile from "../assets/graduated.jpg";
 import { BiLogoGmail } from "react-icons/bi";
+import { useInView } from "react-intersection-observer";
 
 function Content() {
+  const { ref: contentRef, inView: isContentVisible } = useInView({
+    triggerOnce: false, // Allows fade-in animation on both scroll up and down
+    threshold: 0.1,
+  });
+
   return (
     <section
-      className="text-gray-500 body-font bg-gradient-to-r py-14  sm:py-24 from-gray-800 to-gray-900"
+      className="text-gray-500 body-font bg-gradient-to-r py-14 sm:py-24 from-gray-800 to-gray-900"
       id="content"
     >
-      <div className="container mx-auto flex flex-col-reverse lg:flex-row items-center py-12 px-6 lg:px-12">
+      <div
+        ref={contentRef}
+        className={`container mx-auto flex flex-col-reverse lg:flex-row items-center py-12 px-6 lg:px-12 transition-all duration-1000 ease-in-out transform ${
+          isContentVisible
+            ? 'opacity-100 translate-y-0'
+            : 'opacity-0 translate-y-10'
+        }`}
+      >
         {/* Text Section */}
         <div className="lg:w-1/2 w-full lg:pr-12 mb-8 lg:mb-0">
           <div className="flex items-center mb-4">
@@ -178,16 +191,16 @@ function Content() {
         </div>
         {/* Image Section */}
         <div className="lg:w-1/2 w-full flex justify-center mb-10">
-  <img
-    className="w-72 h-72 sm:w-3/4 sm:h-3/4 rounded-full sm:rounded-xl shadow-xl transition-transform duration-300 ease-in-out transform hover:scale-110 hover:rotate-y md:hover:scale-110 md:hover:rotate-3"
-    src={Profile}
-    alt="Profile"
-  />
-</div>
-
+          <img
+            className="w-72 h-72 sm:w-3/4 sm:h-3/4 rounded-full sm:rounded-xl shadow-xl transition-transform duration-1000 ease-in-out transform hover:scale-110 hover:rotate-3"
+            src={Profile}
+            alt="Profile"
+          />
+        </div>
       </div>
     </section>
   );
 }
 
 export default Content;
+
