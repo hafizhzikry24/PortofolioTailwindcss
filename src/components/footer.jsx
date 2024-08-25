@@ -52,7 +52,7 @@ const Footer = () => {
   }, []);
 
   return (
-    <footer className="bg-gray-900 text-white py-12 sm:py-8" id="contact">
+    <footer className="bg-gray-900 text-white py-12 sm:py-12" id="contact">
       <div className="container mx-auto flex flex-col md:flex-row justify-around items-center px-5">
         <div className="flex items-center mb-6 md:mb-0">
           <img
