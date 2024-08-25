@@ -50,7 +50,7 @@ const Header = () => {
         <nav
           className={`${
             isMobileMenuOpen ? 'block' : 'hidden'
-          } md:ml-auto md:flex md:items-center mb-3 mt-1 space-x-6 text-lg`}
+          } md:ml-auto md:flex md:items-center mb-3 mt-1 space-x-6 sm:space-x-7 text-sm sm:text-lg`}
  
         >
           <Link
@@ -84,6 +84,14 @@ const Header = () => {
             className="hover:text-purple-400 text-purple-300 cursor-pointer transition-colors duration-300"
           >
             Projects
+          </Link>
+          <Link
+            to="form"
+            smooth={true}
+            duration={500}
+            className="hover:text-purple-400 text-purple-300 cursor-pointer transition-colors duration-300"
+          >
+            Contact
           </Link>
         </nav>
       </div>

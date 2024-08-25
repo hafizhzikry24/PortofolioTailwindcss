@@ -1,60 +1,156 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FiTwitter, FiMail, FiGithub, FiLinkedin } from "react-icons/fi";
-import MyLogo from "../assets/mylogo.png"
+import MyLogo from "../assets/mylogo.png";
+import { BsWhatsapp } from "react-icons/bs";
 
-export default function Footer() {
+const Footer = () => {
+  const [resultMessage, setResultMessage] = useState("");
+  const [resultClass, setResultClass] = useState("");
+
+  useEffect(() => {
+    const form = document.getElementById("form");
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      const formData = new FormData(form);
+      const object = Object.fromEntries(formData);
+      const json = JSON.stringify(object);
+
+      setResultMessage("Please wait...");
+      setResultClass("");
+
+      fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: json,
+      })
+        .then(async (response) => {
+          let json = await response.json();
+          if (response.status === 200) {
+            setResultMessage(json.message);
+            setResultClass("text-green-500");
+          } else {
+            setResultMessage(json.message);
+            setResultClass("text-red-500");
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          setResultMessage("Something went wrong!");
+          setResultClass("text-red-500");
+        })
+        .finally(() => {
+          form.reset();
+          setTimeout(() => {
+            setResultMessage("");
+          }, 3000);
+        });
+    });
+  }, []);
+
   return (
-    <footer className="bg-gradient-to-r from-gray-800 via-gray-900 to-gray-800 text-white">
-      <div className="bg-gray-800 bg-opacity-75 py-6">
-        <div className="container mx-auto flex flex-col sm:flex-row items-center justify-between px-5">
-          <a className="flex items-center text-white mb-4 sm:mb-0">
-            {/* <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              className="w-10 h-10 text-white p-2 bg-yellow-500 rounded-full"
-              viewBox="0 0 24 24"
-            >
-              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
-            </svg> */}
-            <img
-            className="w-28 sm:w-32 sm:h-7 shadow-xl transition-transform duration-1000 ease-in-out transform hover:scale-110 hover:rotate-3"
+    <footer className="bg-gray-900 text-white py-16 sm:py-8">
+      <div className="container mx-auto flex flex-col md:flex-row justify-around items-center px-5 animate-fadeInUp">
+        <div className="flex items-center mb-6 md:mb-0">
+          <img
+            className="w-28 sm:w-32 shadow-xl transform transition-transform duration-300 hover:scale-105"
             src={MyLogo}
             alt="logo"
           />
-          </a>
-          
-          <p className="text-sm text-purple-200">
-            © 2024 Muhammad Hafizh Zikry — 
-            <a
-              href="mailto:hafizhcool24@gmail.com"
-              className="text-pink-200 ml-1 font-bold hover:text-pink-100"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Hire Me
-            </a>
-          </p>
-          
-          {/* <div className="flex space-x-4 mt-4 sm:mt-0">
-            <a href="mailto:hafizhcool24@gmail.com" className="text-gray-400 hover:text-gray-100 transition-colors duration-300">
-              <FiMail className="w-7 h-7" />
-            </a>
-            <a href="https://twitter.com/knyttneve" className="text-gray-400 hover:text-gray-100 transition-colors duration-300" target="_blank" rel="noopener noreferrer">
-              <FiTwitter className="w-7 h-7" />
-            </a>
-            <a href="https://github.com/yourusername" className="text-gray-400 hover:text-gray-100 transition-colors duration-300" target="_blank" rel="noopener noreferrer">
-              <FiGithub className="w-7 h-7" />
-            </a>
-            <a href="https://www.linkedin.com/in/yourusername" className="text-gray-400 hover:text-gray-100 transition-colors duration-300" target="_blank" rel="noopener noreferrer">
-              <FiLinkedin className="w-7 h-7" />
-            </a>
-          </div> */}
+          <p className="text-sm text-gray-400 ml-4">
+  © 2024 Muhammad Hafizh Zikry 
+  
+</p>
         </div>
+
+        <form
+          className="w-full md:w-1/3 bg-gray-800 p-6 rounded-lg shadow-lg"
+          id="form"
+        >
+          <h2 className="text-lg font-semibold text-white mb-4">
+            Hire me on Email
+          </h2>
+
+          <input
+            type="hidden"
+            name="access_key"
+            value="3fb4d7f3-81ab-42e0-b266-7a2aa397b69e"
+          />
+          <input
+            type="hidden"
+            name="subject"
+            value="New Submission from your Website"
+          />
+          <input type="checkbox" name="botcheck" style={{ display: "none" }} />
+
+          <div className="mb-4">
+            <input
+              type="text"
+              name="name"
+              placeholder="Full Name"
+              required
+              className="w-full px-4 py-2 text-gray-900 rounded-lg bg-gray-200 focus:outline-none focus:ring-2 focus:ring-pink-500"
+            />
+          </div>
+
+          <div className="mb-4">
+            <input
+              type="email"
+              name="email"
+              placeholder="Email Address"
+              required
+              className="w-full px-4 py-2 text-gray-900 rounded-lg bg-gray-200 focus:outline-none focus:ring-2 focus:ring-pink-500"
+            />
+          </div>
+
+          <div className="mb-4">
+            <input
+              type="text"
+              name="phone"
+              placeholder="Phone Number"
+              required
+              className="w-full px-4 py-2 text-gray-900 rounded-lg bg-gray-200 focus:outline-none focus:ring-2 focus:ring-pink-500"
+            />
+          </div>
+
+          <div className="mb-4">
+            <textarea
+              name="message"
+              rows="4"
+              placeholder="Your Message"
+              required
+              className="w-full px-4 py-2 text-gray-900 rounded-lg bg-gray-200 focus:outline-none focus:ring-2 focus:ring-pink-500"
+            ></textarea>
+          </div>
+
+          <button
+            type="submit"
+            className="w-full py-3 mb-2 bg-pink-600 text-white font-semibold rounded-lg hover:bg-pink-500 transition duration-300 ease-in-out"
+          >
+            Send Email
+          </button>
+          <a
+    href="https://wa.me/08117428555?text=Halo%20saya%20tertarik%20untuk%20menghubungi%20Anda"
+    className="flex items-center text-green-300 font-bold hover:text-green-200 transition duration-300 ease-in-out"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    <BsWhatsapp className="mr-2 text-xl" />
+    WhatsApp Me
+  </a>
+          <p
+            className={`text-base text-center mt-4 ${resultClass}`}
+            id="result"
+          >
+            {resultMessage}
+          </p>
+        </form>
       </div>
     </footer>
   );
-}
+};
+
+export default Footer;

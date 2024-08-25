@@ -51,7 +51,7 @@ const About = () => {
             </div>
             <div className="flex-1 text-center md:text-left">
               <p className="text-lg md:text-xl">
-                Creative software developer and network engineer with over 3+ years of experience as a freelancer. Proficient in Laravel, Tailwind CSS, ViteJS, and ReactJS.
+                Creative software developer and network engineer with over 3+ years of experience as a freelancer. Proficient in Laravel, Tailwind CSS, ReactJS, APIs, and Cisco.
               </p>
             </div>
           </div>
