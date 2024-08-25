@@ -52,8 +52,8 @@ const Footer = () => {
   }, []);
 
   return (
-    <footer className="bg-gray-900 text-white py-16 sm:py-8"id="form">
-      <div className="container mx-auto flex flex-col md:flex-row justify-around items-center px-5 animate-fadeInUp">
+    <footer className="bg-gray-900 text-white py-14 sm:py-8" id="form">
+      <div className="container mx-auto flex flex-col md:flex-row justify-around items-center px-5">
         <div className="flex items-center mb-6 md:mb-0">
           <img
             className="w-28 sm:w-32 shadow-xl transform transition-transform duration-300 hover:scale-105"
@@ -71,7 +71,7 @@ const Footer = () => {
           
         >
           <h2 className="text-lg font-semibold text-white mb-4">
-            Hire me on Email
+            Get In Touch
           </h2>
 
           <input
@@ -130,10 +130,10 @@ const Footer = () => {
             type="submit"
             className="w-full py-3 mb-2 bg-pink-600 text-white font-semibold rounded-lg hover:bg-pink-500 transition duration-300 ease-in-out"
           >
-            Send Email
+            Send Message
           </button>
           <a
-    href="https://wa.me/08117428555?text=Halo%20saya%20tertarik%20untuk%20menghubungi%20Anda"
+    href="https://wa.me/628117428555?text=Halo%20saya%20tertarik%20untuk%20menghubungi%20Anda"
     className="flex items-center text-green-300 font-bold hover:text-green-200 transition duration-300 ease-in-out"
     target="_blank"
     rel="noopener noreferrer"
@@ -154,3 +154,4 @@ const Footer = () => {
 };
 
 export default Footer;
+
