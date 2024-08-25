@@ -128,9 +128,9 @@ function Content() {
               Muhammad Hafizh Zikry
             </span>
           </h3>
-          <p className="text-lg md:text-2xl text-gray-300 mb-6">
-            Hello! I'm Muhammad Hafizh Zikry, a recent Computer Engineering
-            graduate passionate about both backend and frontend development. I’m
+          <p className="text-lg md:text-2xl text-gray-300 mb-6 text-justify">
+            Hello! I'm Muhammad Hafizh Zikry, a fresh graduate Computer Engineering Diponegoro University
+             passionate about both backend and frontend development. I’m
             dedicated to mastering technologies and delivering impactful
             solutions.
           </p>

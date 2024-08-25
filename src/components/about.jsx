@@ -55,15 +55,15 @@ const About = () => {
               </p>
             </div>
           </div>
-          <div className="relative overflow-hidden w-full mt-24 md:mt-10 ">
-            <div className="grid grid-cols-3 gap-5 mx-auto px-6 justify-center md:grid-cols-9 animate-bounce sm:animate-slide">
+          <div className="relative overflow-hidden w-full mt-10 md:mt-10 ">
+            <div className="grid grid-cols-3 gap-5 mx-auto px-6 justify-center md:grid-cols-9 animate-fadeInUp ">
               {[js, css, html, reactImg, github, tailwind, laravel, figma, cisco2].map((icon, index) => (
                 <img
                   key={index}
                   src={icon}
                   title={icon.split("/").pop().split(".")[0]}
                   alt=""
-                  className="transition-transform duration-1000 ease-in-out hover:scale-125 hover:rotate-3 flx flex-1" 
+                  className="transition-transform duration-1000 ease-in-out hover:scale-105 hover:rotate-3 flx flex-1" 
                 />
               ))}
             </div>
