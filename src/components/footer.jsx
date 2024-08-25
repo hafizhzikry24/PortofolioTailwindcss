@@ -52,7 +52,7 @@ const Footer = () => {
   }, []);
 
   return (
-    <footer className="bg-gray-900 text-white py-16 sm:py-8">
+    <footer className="bg-gray-900 text-white py-16 sm:py-8"id="form">
       <div className="container mx-auto flex flex-col md:flex-row justify-around items-center px-5 animate-fadeInUp">
         <div className="flex items-center mb-6 md:mb-0">
           <img
@@ -68,7 +68,7 @@ const Footer = () => {
 
         <form
           className="w-full md:w-1/3 bg-gray-800 p-6 rounded-lg shadow-lg"
-          id="form"
+          
         >
           <h2 className="text-lg font-semibold text-white mb-4">
             Hire me on Email
