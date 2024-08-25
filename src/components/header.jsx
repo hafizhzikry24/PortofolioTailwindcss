@@ -86,7 +86,7 @@ const Header = () => {
             Projects
           </Link>
           <Link
-            to="form"
+            to="contact"
             smooth={true}
             duration={500}
             className="hover:text-purple-400 text-purple-300 cursor-pointer transition-colors duration-300"
