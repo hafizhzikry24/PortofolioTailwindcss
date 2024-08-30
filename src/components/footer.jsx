@@ -2,10 +2,15 @@ import React, { useEffect, useState } from "react";
 import { FiTwitter, FiMail, FiGithub, FiLinkedin } from "react-icons/fi";
 import MyLogo from "../assets/mylogo.png";
 import { BsWhatsapp } from "react-icons/bs";
+import { useInView } from "react-intersection-observer";
 
 const Footer = () => {
   const [resultMessage, setResultMessage] = useState("");
   const [resultClass, setResultClass] = useState("");
+  const { ref: contentRef, inView: isContentVisible } = useInView({
+    triggerOnce: false, // Allows fade-in animation on both scroll up and down
+    threshold: 0.1,
+  });
 
   useEffect(() => {
     const form = document.getElementById("form");
@@ -53,7 +58,12 @@ const Footer = () => {
 
   return (
     <footer className="bg-gray-900 text-white py-12 sm:py-12 rounded-xl " id="contact">
-      <div className="container mx-auto flex flex-col md:flex-row justify-around items-center px-5 animate-fadeInUp ">
+      <div ref={contentRef}
+      className={`container mx-auto flex flex-col md:flex-row justify-around items-center px-5 transition-all duration-1000 ease-in-out transform ${
+        isContentVisible
+          ? 'opacity-100 translate-y-0'
+          : 'opacity-0 translate-y-10'
+      }`}>
         <div className="flex items-center mb-6 md:mb-0">
           <img
             className="w-28 sm:w-32 shadow-xl transform transition-transform duration-300 hover:scale-105"

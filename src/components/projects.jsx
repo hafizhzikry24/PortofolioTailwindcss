@@ -16,7 +16,7 @@ const ProjectCard = ({ project }) => {
   return (
     <div
       ref={ref}
-      className={`lg:w-1/3 sm:w-1/2 p-4 mb-4 sm:mb-0 transition-transform transform ${
+      className={`p-4 transition-transform transform ${
         inView ? "opacity-100 translate-y-0 scale-105 shadow-lg" : "opacity-0 translate-y-10"
       } duration-700 ease-in-out`}
     >
@@ -105,7 +105,7 @@ export default function Projects() {
       className="text-gray-600 body-font bg-gradient-to-r from-slate-100 via-slate-200 to-gray-200 py-16"
       id="projects"
     >
-      <div className="container px-5 py-16 mx-auto min-h-screen sm:py-24">
+      <div className="container px-5 py-8 mx-auto min-h-screen">
         <div className="text-center mb-20">
           <h1 className="text-3xl font-extrabold text-gray-900 mb-4 animate__animated animate__fadeIn">
             My Projects
@@ -114,9 +114,18 @@ export default function Projects() {
             This is a project that I made while studying in the IT field. These projects were created for college and internship needs to develop hard skills, including college assignments, practical work, and research.
           </p>
         </div>
-        <div className="flex flex-wrap -m-4 text-justify">
+        <div className="hidden md:flex flex-wrap -m-4 text-justify">
           {projects.map((project, index) => (
-            <ProjectCard key={index} project={project} />
+            <div className="lg:w-1/3 sm:w-1/2 p-4 mb-4 sm:mb-0" key={index}>
+              <ProjectCard project={project} />
+            </div>
+          ))}
+        </div>
+        <div className="flex md:hidden overflow-x-auto space-x-4">
+          {projects.map((project, index) => (
+            <div className="w-full min-w-[300px] py-12 flex-shrink-0" key={index}>
+              <ProjectCard project={project} />
+            </div>
           ))}
         </div>
       </div>
