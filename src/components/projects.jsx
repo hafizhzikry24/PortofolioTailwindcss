@@ -113,11 +113,11 @@ export default function Projects() {
 
   return (
     <section
-      className="text-gray-600 body-font bg-gradient-to-r from-slate-100 via-slate-200 to-gray-200 py-16"
+      className="text-gray-600 body-font bg-gradient-to-r from-slate-100 via-slate-200 to-gray-200 py-28 sm:py-10"
       id="projects"
     >
-      <div className="container px-5 py-8 mx-auto min-h-screen">
-        <div className="text-center mb-20">
+      <div className="container px-5 py-2 mx-auto min-h-screen">
+        <div className="text-center mb-5">
           <h1 className="text-3xl font-extrabold text-gray-900 mb-4 animate__animated animate__fadeIn">
             My Projects
           </h1>
@@ -141,7 +141,7 @@ export default function Projects() {
         {/* Mobile View with scroll */}
         <div ref={scrollRef} className="flex md:hidden overflow-x-auto space-x-4">
           {projects.map((project, index) => (
-            <div className="w-full py-12 flex-shrink-0" key={index}>
+            <div className="w-full py-2 flex-shrink-0" key={index}>
               <ProjectCard project={project} />
             </div>
           ))}

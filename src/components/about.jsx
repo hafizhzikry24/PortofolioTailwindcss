@@ -19,7 +19,7 @@ const About = () => {
 
   return (
     <section
-      className="text-gray-700 body-font overflow-hidden bg-gradient-to-r from-slate-100 to-slate-200 py-32 sm:py-36"
+      className="text-gray-700 body-font overflow-hidden bg-gradient-to-r from-slate-100 to-slate-200 py-24 sm:py-28"
       id="about"
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -38,7 +38,7 @@ const About = () => {
           </div>
           <div className="flex flex-col md:flex-row gap-6 items-center transition-all duration-1000 ease-in-out">
             <div className="flex-1 text-center md:text-justify">
-              <p className="text-md md:text-xl mb-4">
+              <p className="text-md md:text-xl mb-4 text-justify">
                 I am eager to build a career in IT, focusing on both backend and frontend development. I thrive on creating efficient backend systems and crafting engaging front-end interfaces. I am committed to mastering the latest technologies and best practices to deliver high-quality, comprehensive solutions.
               </p>
             </div>
@@ -50,7 +50,7 @@ const About = () => {
               />
             </div>
             <div className="flex-1 text-center md:text-left">
-              <p className="text-md md:text-xl">
+              <p className="text-md md:text-xl text-justify">
                 Creative software developer and network engineer with over 3+ years of experience as a freelancer. Proficient in Laravel, Tailwind CSS, ReactJS, APIs, and Cisco.
               </p>
             </div>

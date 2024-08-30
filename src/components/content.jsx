@@ -98,7 +98,7 @@ function Content() {
 
   return (
     <section
-      className="text-gray-500 body-font bg-gradient-to-r py-14 sm:py-24 from-gray-800 to-gray-900"
+      className="text-gray-500 body-font bg-gradient-to-r py-20 sm:py-24 from-gray-800 to-gray-900"
       id="content"
     >
       <div

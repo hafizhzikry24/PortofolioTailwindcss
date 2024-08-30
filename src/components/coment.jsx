@@ -83,7 +83,7 @@ function Comment() {
     return (
         <section
             ref={contentRef}
-            className={`text-gray-600 body-font relative bg-gradient-to-r from-gray-100 via-gray-200 py-16 transition-all duration-1000 ease-in-out transform ${
+            className={`text-gray-600 body-font relative bg-gradient-to-r from-gray-100 via-gray-200 py-6 sm:py-12 transition-all duration-1000 ease-in-out transform ${
                 isContentVisible
                     ? 'opacity-100 translate-y-0'
                     : 'opacity-0 translate-y-10'

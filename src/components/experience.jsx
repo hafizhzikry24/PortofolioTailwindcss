@@ -47,12 +47,12 @@ export default function Experience() {
   return (
     <section
       ref={contentRef}
-      className={`text-gray-600 body-font bg-gradient-to-r from-gray-50 via-gray-100 py-8 transition-all duration-1000 ease-in-out transform ${
+      className={`text-gray-600 body-font bg-gradient-to-r from-gray-50 via-gray-100 py-28 sm:py-4 transition-all duration-1000 ease-in-out transform ${
         isContentVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
       }`}
       id="experience"
     >
-      <div className="container px-5 py-24 mx-auto text-center sm:py-28 relative">
+      <div className="container px-5 py-10 mx-auto text-center sm:py-28 relative">
         <div className="mb-20">
           <h1 className="sm:text-4xl text-3xl font-extrabold text-gray-900 mb-4 animate__animated animate__fadeIn">
             Experience
@@ -64,7 +64,7 @@ export default function Experience() {
 
         {/* Left Scroll Icon */}
         <button
-          className="absolute z-10 left-0 top-1/2 transform -translate-y-1/2 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-full p-2 mx-3"
+          className="absolute z-10 left-0 top-1/2 transform -translate-y-1/2 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-full p-2 mx-2"
           onClick={() => handleScroll("left")}
         >
           <FiChevronLeft size={24} />
@@ -72,7 +72,7 @@ export default function Experience() {
 
         {/* Right Scroll Icon */}
         <button
-          className="absolute z-10 right-0 top-1/2 transform -translate-y-1/2 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-full p-2 mx-3"
+          className="absolute z-10 right-0 top-1/2 transform -translate-y-1/2 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-full p-2 mx-2"
           onClick={() => handleScroll("right")}
         >
           <FiChevronRight size={24} />
@@ -108,7 +108,7 @@ export default function Experience() {
             ].map((item, index) => (
               <div
                 key={index}
-                className="experience-card min-w-full p-20  rounded-lg shadow-md hover:shadow-lg transition-all duration-500 ease-in-out transform opacity-0 hover:scale-90 animate__animated animate__fadeIn"
+                className="bg-gradient-to-r from-slate-50  to-gray-100  experience-card min-w-full p-10 text-justify sm:p-20  rounded-lg shadow-md hover:shadow-lg transition-all duration-500 ease-in-out transform opacity-0 hover:scale-90 animate__animated animate__fadeIn"
               >
                 <div className="flex items-center mb-4">
                   <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center text-gray-700 text-lg font-bold mr-4">
