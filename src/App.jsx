@@ -5,7 +5,7 @@ import Footer from "./components/footer";
 import About from "./components/about";
 import Projects from "./components/projects";
 import Experience from "./components/experience";
-import Comment from "./components/feedback";
+import Comment from "./components/coment";
 
 
 const App = () => {
