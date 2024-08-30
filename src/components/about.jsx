@@ -36,9 +36,9 @@ const About = () => {
               About Me
             </p>
           </div>
-          <div className="flex flex-col md:flex-row gap-8 items-center transition-all duration-1000 ease-in-out">
+          <div className="flex flex-col md:flex-row gap-6 items-center transition-all duration-1000 ease-in-out">
             <div className="flex-1 text-center md:text-justify">
-              <p className="text-lg md:text-xl mb-4">
+              <p className="text-md md:text-xl mb-4">
                 I am eager to build a career in IT, focusing on both backend and frontend development. I thrive on creating efficient backend systems and crafting engaging front-end interfaces. I am committed to mastering the latest technologies and best practices to deliver high-quality, comprehensive solutions.
               </p>
             </div>
@@ -50,13 +50,13 @@ const About = () => {
               />
             </div>
             <div className="flex-1 text-center md:text-left">
-              <p className="text-lg md:text-xl">
+              <p className="text-md md:text-xl">
                 Creative software developer and network engineer with over 3+ years of experience as a freelancer. Proficient in Laravel, Tailwind CSS, ReactJS, APIs, and Cisco.
               </p>
             </div>
           </div>
           <div className="relative overflow-hidden w-full mt-10 md:mt-10 ">
-            <div className="grid grid-cols-3 gap-5 mx-auto px-6 justify-center md:grid-cols-9 animate-fadeInUp ">
+            <div className="grid grid-cols-3 gap-5 sm:mx-auto px-6 justify-center md:grid-cols-9 animate-fadeInUp mx-4">
               {[js, css, html, reactImg, github, tailwind, laravel, figma, cisco2].map((icon, index) => (
                 <img
                   key={index}

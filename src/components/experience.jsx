@@ -1,8 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useInView } from "react-intersection-observer";
-
+import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 
 export default function Experience() {
+  const scrollContainerRef = useRef(null);
+
   useEffect(() => {
     const cards = document.querySelectorAll('.experience-card');
     const observer = new IntersectionObserver((entries) => {
@@ -33,14 +35,24 @@ export default function Experience() {
     threshold: 0.1,
   });
 
+  const handleScroll = (direction) => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollBy({
+        left: direction === "left" ? -300 : 300,
+        behavior: "smooth",
+      });
+    }
+  };
+
   return (
-    <section ref={contentRef}
-    className={`text-gray-600 body-font bg-gradient-to-r from-gray-50 via-gray-100 py-16 transition-all duration-1000 ease-in-out transform ${
-        isContentVisible
-            ? 'opacity-100 translate-y-0'
-            : 'opacity-0 translate-y-10'
-    }`} id="experience">
-      <div className="container px-5 py-24 mx-auto text-center sm:py-28">
+    <section
+      ref={contentRef}
+      className={`text-gray-600 body-font bg-gradient-to-r from-gray-50 via-gray-100 py-8 transition-all duration-1000 ease-in-out transform ${
+        isContentVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+      }`}
+      id="experience"
+    >
+      <div className="container px-5 py-24 mx-auto text-center sm:py-28 relative">
         <div className="mb-20">
           <h1 className="sm:text-4xl text-3xl font-extrabold text-gray-900 mb-4 animate__animated animate__fadeIn">
             Experience
@@ -49,8 +61,25 @@ export default function Experience() {
             This is my experience while studying at Diponegoro University.
           </p>
         </div>
-        <div className="overflow-x-auto">
-          <div className="flex space-x-16 pb-4">
+
+        {/* Left Scroll Icon */}
+        <button
+          className="absolute z-10 left-0 top-1/2 transform -translate-y-1/2 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-full p-2 mx-3"
+          onClick={() => handleScroll("left")}
+        >
+          <FiChevronLeft size={24} />
+        </button>
+
+        {/* Right Scroll Icon */}
+        <button
+          className="absolute z-10 right-0 top-1/2 transform -translate-y-1/2 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-full p-2 mx-3"
+          onClick={() => handleScroll("right")}
+        >
+          <FiChevronRight size={24} />
+        </button>
+
+        <div className="overflow-x-auto" ref={scrollContainerRef}>
+          <div className="flex space-x-24 pb-4">
             {[
               {
                 company: "PT. Awan Network Indonesia",
@@ -70,18 +99,16 @@ export default function Experience() {
                 role: "UI/UX Design",
                 description: "Won first place in the Diponegoro University MTQM Al-Qur'an Application Design competition, representing the university at the National MTQM at Brawijaya University, Malang. Our team, out of 50 university representatives, presented the Quran Application Design and finished in the top 18."
               },
-              
               {
                 company: "SMKN 53 Jakarta",
                 period: "Jan 2023 - Feb 2023",
                 role: "Network Engineer",
                 description: "Carrying out network design or what is known as network architecture, installing and configuring the network design then monitoring the network to ensure that the network does not experience problems, troubleshooting which is carried out when interference or problems are found on a network and documentation is useful for reports and also makes the subsequent troubleshooting process easier."
               },
-              
             ].map((item, index) => (
               <div
                 key={index}
-                className="experience-card min-w-full p-14 bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-500 ease-in-out transform opacity-0 hover:scale-90 animate__animated animate__fadeIn"
+                className="experience-card min-w-full p-20  rounded-lg shadow-md hover:shadow-lg transition-all duration-500 ease-in-out transform opacity-0 hover:scale-90 animate__animated animate__fadeIn"
               >
                 <div className="flex items-center mb-4">
                   <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center text-gray-700 text-lg font-bold mr-4">

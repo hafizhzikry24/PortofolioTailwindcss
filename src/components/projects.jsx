@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useRef } from "react";
 import porto from "../assets/SPCPLCPMK.png";
 import foody from "../assets/12.png";
 import kkn from "../assets/13.png";
 import bercak from "../assets/Bercak.png";
 import madani from "../assets/Madani.png";
 import KP from "../assets/KP.png";
+import { FiArrowLeft, FiArrowRight } from "react-icons/fi";
 import { useInView } from "react-intersection-observer";
 
 const ProjectCard = ({ project }) => {
@@ -100,6 +101,16 @@ export default function Projects() {
     },
   ];
 
+  const scrollRef = useRef(null);
+
+  const scrollLeft = () => {
+    scrollRef.current.scrollBy({ left: -300, behavior: "smooth" });
+  };
+
+  const scrollRight = () => {
+    scrollRef.current.scrollBy({ left: 300, behavior: "smooth" });
+  };
+
   return (
     <section
       className="text-gray-600 body-font bg-gradient-to-r from-slate-100 via-slate-200 to-gray-200 py-16"
@@ -114,6 +125,11 @@ export default function Projects() {
             This is a project that I made while studying in the IT field. These projects were created for college and internship needs to develop hard skills, including college assignments, practical work, and research.
           </p>
         </div>
+
+        {/* Arrows for scrolling */}
+        
+
+        {/* Desktop View */}
         <div className="hidden md:flex flex-wrap -m-4 text-justify">
           {projects.map((project, index) => (
             <div className="lg:w-1/3 sm:w-1/2 p-4 mb-4 sm:mb-0" key={index}>
@@ -121,12 +137,19 @@ export default function Projects() {
             </div>
           ))}
         </div>
-        <div className="flex md:hidden overflow-x-auto space-x-4">
+
+        {/* Mobile View with scroll */}
+        <div ref={scrollRef} className="flex md:hidden overflow-x-auto space-x-4">
           {projects.map((project, index) => (
-            <div className="w-full min-w-[300px] py-12 flex-shrink-0" key={index}>
+            <div className="w-full py-12 flex-shrink-0" key={index}>
               <ProjectCard project={project} />
             </div>
           ))}
+        </div>
+
+        <div className="flex md:hidden justify-between items-center mt-4 mx-6">
+          <FiArrowLeft onClick={scrollLeft} className="text-2xl cursor-pointer" />
+          <FiArrowRight onClick={scrollRight} className="text-2xl cursor-pointer" />
         </div>
       </div>
     </section>
