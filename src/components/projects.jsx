@@ -104,11 +104,11 @@ export default function Projects() {
   const scrollRef = useRef(null);
 
   const scrollLeft = () => {
-    scrollRef.current.scrollBy({ left: -370, behavior: "smooth" });
+    scrollRef.current.scrollBy({ left: -368, behavior: "smooth" });
   };
 
   const scrollRight = () => {
-    scrollRef.current.scrollBy({ left: 370, behavior: "smooth" });
+    scrollRef.current.scrollBy({ left: 368, behavior: "smooth" });
   };
 
   return (
