@@ -38,7 +38,7 @@ export default function Experience() {
   const handleScroll = (direction) => {
     if (scrollContainerRef.current) {
       scrollContainerRef.current.scrollBy({
-        left: direction === "left" ? -300 : 300,
+        left: direction === "left" ? -450 : 450,
         behavior: "smooth",
       });
     }
