@@ -13,7 +13,7 @@ export function TimelineDemo() {
 
   const data = [
     {
-      title: "Alturian Indonesia (Software Engineer)",
+      title: "Alturian Indonesia (Junior Software Engineer)",
       category: "Software Development",
       date: "2025-02-01",
       content: (
@@ -31,7 +31,28 @@ export function TimelineDemo() {
       ),
     },
     {
-      title: "PT Awan Network Indonesia (Backend Developer)",
+      title:
+        language === "en"
+          ? "Diponegoro University (Assistant Practicum)"
+          : "Universitas Diponegoro (Asisten Praktikum)",
+      category: "Education",
+      date: "2024-08-01",
+      content: (
+        <div>
+          <p className="text-purple-400 text-sm md:text-base font-medium mb-4 flex items-center">
+            <span className="inline-block w-2 h-2 rounded-full bg-purple-500 mr-2"></span>
+            Feb 2023 - April 2024
+          </p>
+          <p className="text-gray-300 text-sm md:text-base font-normal text-justify leading-relaxed">
+            {language === "en"
+              ? "During my studies I took the opportunity to become a practicum assistant, I taught: Assistant practicum of Digital System Class, Assistant practicum of Introduction To Network Class, Assistant practicum of Advanced Digital Systems Class, Assistant practicum of Switching, routing and wireless essentials Class, Assistant practicum of Automation and Control Systems Practical Class."
+              : "Selama studi saya, saya mengambil kesempatan untuk menjadi asisten praktikum, saya mengajar: Asisten praktikum Kelas Sistem Digital, Asisten praktikum Kelas Pengantar Jaringan, Asisten praktikum Kelas Sistem Digital Lanjut, Asisten praktikum Kelas Switching, routing dan wireless essentials, Asisten praktikum Kelas Sistem Otomasi dan Kontrol."}
+          </p>
+        </div>
+      ),
+    },
+    {
+      title: "PT Awan Network Indonesia (Junior Backend Developer)",
       category: "Backend Development",
       date: "2024-08-01",
       content: (
@@ -44,27 +65,6 @@ export function TimelineDemo() {
             {language === "en"
               ? "As a Backend Developer at PT Awan Network Indonesia, I developed and optimized APIs for seamless integration between the application and the website with my team. My responsibilities included ensuring efficient backend performance, implementing scalable solutions, and collaborating with cross-functional teams to deliver a robust and secure platform that enhances user interaction and functionality."
               : "Sebagai Backend Developer di PT Awan Network Indonesia, saya mengembangkan dan mengoptimalkan API untuk integrasi yang mulus antara aplikasi dan situs web dengan tim saya. Tanggung jawab saya termasuk memastikan kinerja backend yang efisien, menerapkan solusi yang dapat diskalakan, dan berkolaborasi dengan tim lintas fungsi untuk menghadirkan platform yang kuat dan aman yang meningkatkan interaksi dan fungsionalitas pengguna."}
-          </p>
-        </div>
-      ),
-    },
-    {
-      title:
-        language === "en"
-          ? "Diponegoro University (Assistant Practicum)"
-          : "Universitas Diponegoro (Asisten Praktikum)",
-      category: "Education",
-      date: "2024-08-01",
-      content: (
-        <div>
-          <p className="text-purple-400 text-sm md:text-base font-medium mb-4 flex items-center">
-            <span className="inline-block w-2 h-2 rounded-full bg-purple-500 mr-2"></span>
-            Aug 2024 - Nov 2024
-          </p>
-          <p className="text-gray-300 text-sm md:text-base font-normal text-justify leading-relaxed">
-            {language === "en"
-              ? "During my studies I took the opportunity to become a practicum assistant, I taught: Assistant practicum of Digital System Class, Assistant practicum of Introduction To Network Class, Assistant practicum of Advanced Digital Systems Class, Assistant practicum of Switching, routing and wireless essentials Class, Assistant practicum of Automation and Control Systems Practical Class."
-              : "Selama studi saya, saya mengambil kesempatan untuk menjadi asisten praktikum, saya mengajar: Asisten praktikum Kelas Sistem Digital, Asisten praktikum Kelas Pengantar Jaringan, Asisten praktikum Kelas Sistem Digital Lanjut, Asisten praktikum Kelas Switching, routing dan wireless essentials, Asisten praktikum Kelas Sistem Otomasi dan Kontrol."}
           </p>
         </div>
       ),
@@ -91,7 +91,7 @@ export function TimelineDemo() {
       ),
     },
     {
-      title: "SMKN 53 Jakarta (Network Engineer)",
+      title: "SMKN 53 Jakarta (Network Engineer Internship)",
       category: "Networking",
       date: "2023-01-01",
       content: (
