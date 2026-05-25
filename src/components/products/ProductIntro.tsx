@@ -158,7 +158,7 @@ const ProductIntro: React.FC = () => {
               key={word}
               variants={headingWordVariants}
               className="select-none font-black uppercase tracking-tighter text-white"
-              style={{ fontSize: "clamp(3.6rem, 11vw, 8rem)", lineHeight: 0.92 }}
+              style={{ fontSize: "clamp(2.9rem, 11vw, 8rem)", lineHeight: 0.92 }}
             >
               {i === 0 ? (
                 word
