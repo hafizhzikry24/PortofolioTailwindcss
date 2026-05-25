@@ -1,16 +1,20 @@
 "use client"
 
-import  React from "react"
-import { useRef, useEffect, useState } from "react"
-import { Code2, Palette, Smartphone, Database, X, ArrowRight, CheckCircle } from "lucide-react"
-import { gsap } from "gsap"
-import { ScrollTrigger } from "gsap/ScrollTrigger"
-import { useLanguage } from '../../../LanguageContext';
+import React, { useCallback, useEffect, useState } from "react"
+import { AnimatePresence, motion } from "framer-motion"
+import { useInView } from "react-intersection-observer"
+import {
+  ArrowRight,
+  CheckCircle2,
+  Code2,
+  Database,
+  Palette,
+  Smartphone,
+  X,
+} from "lucide-react"
+import { useLanguage } from "../../../LanguageContext"
 
-// Register GSAP plugins
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger)
-}
+type Language = "en" | "id"
 
 interface Service {
   id: string
@@ -19,512 +23,424 @@ interface Service {
   description: string
   features: string[]
   technologies: string[]
-  gradient: string
-  accentColor: string
+  accent: string
+  iconBg: string
+  ring: string
 }
 
-interface ServicesProps {
-  language?: "en" | "id"
+const COPY: Record<Language, {
+  eyebrow: string
+  titleLine1: string
+  titleLine2: string
+  description: string
+  explore: string
+  features: string
+  technologies: string
+  close: string
+}> = {
+  en: {
+    eyebrow: "Professional Services",
+    titleLine1: "Exceptional digital",
+    titleLine2: "solutions",
+    description:
+      "Comprehensive services that transform ideas into experiences, combining technical excellence with creative innovation.",
+    explore: "Explore service",
+    features: "Key features",
+    technologies: "Technologies",
+    close: "Close",
+  },
+  id: {
+    eyebrow: "Layanan Profesional",
+    titleLine1: "Solusi digital",
+    titleLine2: "yang luar biasa",
+    description:
+      "Layanan komprehensif yang mengubah ide menjadi pengalaman, memadukan keunggulan teknis dengan inovasi kreatif.",
+    explore: "Jelajahi layanan",
+    features: "Fitur utama",
+    technologies: "Teknologi",
+    close: "Tutup",
+  },
 }
 
-const Services: React.FC<ServicesProps> = () => {
+const buildServices = (language: Language): Service[] => [
+  {
+    id: "web-dev",
+    icon: <Code2 className="h-6 w-6" aria-hidden="true" />,
+    title: language === "en" ? "Web Development" : "Pengembangan Web",
+    description:
+      language === "en"
+        ? "Crafting exceptional digital experiences with modern technologies and meticulous attention to detail."
+        : "Menciptakan pengalaman digital hebat dengan teknologi modern dan perhatian pada setiap detail.",
+    features:
+      language === "en"
+        ? [
+            "Custom web application development",
+            "Progressive Web Apps (PWA)",
+            "Enterprise e-commerce solutions",
+            "RESTful API development & integration",
+            "Performance optimization & monitoring",
+            "SEO-optimized development practices",
+          ]
+        : [
+            "Pengembangan aplikasi web kustom",
+            "Progressive Web Apps (PWA)",
+            "Solusi e-commerce perusahaan",
+            "Pengembangan & integrasi API RESTful",
+            "Optimasi & pemantauan kinerja",
+            "Praktik pengembangan yang dioptimalkan SEO",
+          ],
+    technologies: ["React", "Next.js", "Angular", "Laravel", "Docker", "GitHub"],
+    accent: "from-emerald-400 to-teal-500",
+    iconBg: "bg-emerald-500/10 text-emerald-300",
+    ring: "hover:border-emerald-400/40",
+  },
+  {
+    id: "ui-ux",
+    icon: <Palette className="h-6 w-6" aria-hidden="true" />,
+    title: language === "en" ? "UI/UX Design" : "Desain UI/UX",
+    description:
+      language === "en"
+        ? "Intuitive, aesthetically refined interfaces that prioritize user experience and business objectives."
+        : "Antarmuka intuitif dan estetis yang mengutamakan pengalaman pengguna dan tujuan bisnis.",
+    features:
+      language === "en"
+        ? [
+            "Comprehensive user research & analysis",
+            "Interactive wireframing & prototyping",
+            "Brand identity & visual design systems",
+            "Micro-interaction & animation design",
+            "Scalable design system architecture",
+            "Usability testing & optimization",
+          ]
+        : [
+            "Riset & analisis pengguna komprehensif",
+            "Wireframing & prototyping interaktif",
+            "Identitas merek & sistem desain visual",
+            "Desain mikro-interaksi & animasi",
+            "Arsitektur design system yang scalable",
+            "Pengujian & optimasi kegunaan",
+          ],
+    technologies: ["Figma", "Adobe Creative"],
+    accent: "from-violet-400 to-purple-500",
+    iconBg: "bg-violet-500/10 text-violet-300",
+    ring: "hover:border-violet-400/40",
+  },
+  {
+    id: "mobile-dev",
+    icon: <Smartphone className="h-6 w-6" aria-hidden="true" />,
+    title: language === "en" ? "Mobile Development" : "Pengembangan Mobile",
+    description:
+      language === "en"
+        ? "High-performance mobile applications that deliver native-quality experiences across every platform."
+        : "Aplikasi mobile berkinerja tinggi yang memberikan pengalaman setara native di setiap platform.",
+    features:
+      language === "en"
+        ? [
+            "Native iOS & Android development",
+            "Cross-platform application solutions",
+            "App Store optimization strategies",
+            "Real-time push notification systems",
+            "Offline-first functionality design",
+            "Advanced performance optimization",
+          ]
+        : [
+            "Pengembangan iOS & Android native",
+            "Solusi aplikasi lintas platform",
+            "Strategi optimasi App Store",
+            "Sistem notifikasi push real-time",
+            "Desain fungsionalitas offline-first",
+            "Optimasi kinerja tingkat lanjut",
+          ],
+    technologies: ["React Native", "Flutter"],
+    accent: "from-sky-400 to-indigo-500",
+    iconBg: "bg-sky-500/10 text-sky-300",
+    ring: "hover:border-sky-400/40",
+  },
+  {
+    id: "database",
+    icon: <Database className="h-6 w-6" aria-hidden="true" />,
+    title: language === "en" ? "Database Architecture" : "Arsitektur Database",
+    description:
+      language === "en"
+        ? "Robust, scalable database solutions that ensure optimal performance and data integrity."
+        : "Solusi database yang andal dan scalable, menjamin performa optimal dan integritas data.",
+    features:
+      language === "en"
+        ? [
+            "Enterprise database architecture design",
+            "Query optimization & performance tuning",
+            "Seamless data migration strategies",
+            "Advanced security implementation",
+            "Automated backup & recovery solutions",
+            "Real-time monitoring & maintenance",
+          ]
+        : [
+            "Desain arsitektur database perusahaan",
+            "Optimasi query & tuning kinerja",
+            "Strategi migrasi data yang mulus",
+            "Implementasi keamanan tingkat lanjut",
+            "Solusi backup & pemulihan otomatis",
+            "Pemantauan & pemeliharaan real-time",
+          ],
+    technologies: ["MySQL", "MongoDB", "Firebase", "Supabase"],
+    accent: "from-amber-400 to-orange-500",
+    iconBg: "bg-amber-500/10 text-amber-300",
+    ring: "hover:border-amber-400/40",
+  },
+]
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 24 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] },
+  },
+}
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.08, delayChildren: 0.1 },
+  },
+}
+
+const Services: React.FC = () => {
+  const { language } = useLanguage() as { language: Language }
+  const copy = COPY[language] ?? COPY.en
+  const services = buildServices(language)
+
   const [selectedService, setSelectedService] = useState<Service | null>(null)
-  const sectionRef = useRef<HTMLElement>(null)
-  const containerRef = useRef<HTMLDivElement>(null)
-  const headerRef = useRef<HTMLDivElement>(null)
-  const cardsRef = useRef<HTMLDivElement>(null)
-  const servicesRefs = useRef<(HTMLDivElement | null)[]>([])
-  const { language } = useLanguage();
+  const [headerRef, headerInView] = useInView({ triggerOnce: true, threshold: 0.2 })
+  const [gridRef, gridInView] = useInView({ triggerOnce: true, threshold: 0.1 })
 
-  const services: Service[] = [
-    {
-      id: "web-dev",
-      icon: <Code2 className="w-7 h-7" />,
-      title: language === "en" ? "Web Development" : "Pengembangan Web",
-      description:
-        language === "en"
-          ? "Crafting exceptional digital experiences with new technologies and meticulous attention detail."
-          : "Menciptakan pengalaman digital hebat dengan teknologi terkini dan perhatian di setiap detail.",
-      features:
-        language === "en"
-          ? [
-              "Custom web application development",
-              "Progressive Web Apps (PWA)",
-              "Enterprise e-commerce solutions",
-              "RESTful API development & integration",
-              "Performance optimization & monitoring",
-              "SEO-optimized development practices",
-            ]
-          : [
-              "Pengembangan aplikasi web kustom",
-              "Progressive Web Apps (PWA)",
-              "Solusi e-commerce perusahaan",
-              "Pengembangan & integrasi API RESTful",
-              "Optimasi & pemantauan kinerja",
-              "Praktik pengembangan yang dioptimalkan SEO",
-            ],
-      technologies: ["React", "Next.js", "Angular", "Laravel", "Docker", "GitHub"],
-      gradient: "from-slate-900 via-slate-800 to-slate-700",
-      accentColor: "from-emerald-400 to-teal-500",
-    },
-    {
-      id: "ui-ux",
-      icon: <Palette className="w-7 h-7" />,
-      title: language === "en" ? "UI/UX Design" : "Desain UI/UX",
-      description:
-        language === "en"
-          ? "Creating intuitive, aesthetically pleasing interfaces that prioritize user experience and business objectives."
-          : "Menciptakan antarmuka  dan menarik secara estetika, mengutamakan pengalaman pengguna dan tujuan bisnis.",
-      features:
-        language === "en"
-          ? [
-              "Comprehensive user research & analysis",
-              "Interactive wireframing & prototyping",
-              "Brand identity & visual design systems",
-              "Micro-interaction & animation design",
-              "Scalable design system architecture",
-              "Usability testing & optimization",
-            ]
-          : [
-              "Penelitian & analisis pengguna komprehensif",
-              "Wireframing & prototyping interaktif",
-              "Identitas merek & sistem desain visual",
-              "Desain mikro-interaksi & animasi",
-              "Arsitektur sistem desain yang dapat diskalakan",
-              "Pengujian & optimasi kegunaan",
-            ],
-      technologies: ["Figma", "Adobe Creative"],
-      gradient: "from-slate-900 via-slate-800 to-slate-700",
-      accentColor: "from-violet-400 to-purple-500",
-    },
-    {
-      id: "mobile-dev",
-      icon: <Smartphone className="w-7 h-7" />,
-      title: language === "en" ? "Mobile Development" : "Pengembangan Mobile",
-      description:
-        language === "en"
-          ? "Building high-performance mobile applications that deliver native experiences across all platforms."
-          : "Membangun aplikasi mobile berkinerja tinggi yang memberikan pengalaman native di semua platform.",
-      features:
-        language === "en"
-          ? [
-              "Native iOS & Android development",
-              "Cross-platform application solutions",
-              "App Store optimization strategies",
-              "Real-time push notification systems",
-              "Offline-first functionality design",
-              "Advanced performance optimization",
-            ]
-          : [
-              "Pengembangan iOS & Android native",
-              "Solusi aplikasi lintas platform",
-              "Strategi optimasi App Store",
-              "Sistem notifikasi push real-time",
-              "Desain fungsionalitas offline-first",
-              "Optimasi kinerja tingkat lanjut",
-            ],
-      technologies: ["React Native", "Flutter"],
-      gradient: "from-slate-900 via-slate-800 to-slate-700",
-      accentColor: "from-blue-400 to-indigo-500",
-    },
-    {
-      id: "database",
-      icon: <Database className="w-7 h-7" />,
-      title: language === "en" ? "Database Architecture" : "Arsitektur Database",
-      description:
-        language === "en"
-          ? "Designing robust, scalable database solutions that ensure optimal performance and data integrity."
-          : "Merancang solusi database yang kuat dan dapat diskalakan yang memastikan kinerja optimal dan integritas data.",
-      features:
-        language === "en"
-          ? [
-              "Enterprise database architecture design",
-              "Query optimization & performance tuning",
-              "Seamless data migration strategies",
-              "Advanced security implementation",
-              "Automated backup & recovery solutions",
-              "Real-time monitoring & maintenance",
-            ]
-          : [
-              "Desain arsitektur database perusahaan",
-              "Optimasi query & penyesuaian kinerja",
-              "Strategi migrasi data yang mulus",
-              "Implementasi keamanan tingkat lanjut",
-              "Solusi backup & pemulihan otomatis",
-              "Pemantauan & pemeliharaan real-time",
-            ],
-      technologies: ["MySQL", "MongoDB", "Firebase", "Supabase"],
-      gradient: "from-slate-900 via-slate-800 to-slate-700",
-      accentColor: "from-amber-400 to-orange-500",
-    },
-  ]
-
-  useEffect(() => {
-    if (typeof window === "undefined") return
-
-    const ctx = gsap.context(() => {
-      // Header animation
-      gsap.fromTo(
-        headerRef.current,
-        {
-          opacity: 0,
-          y: 100,
-          scale: 0.8,
-        },
-        {
-          opacity: 1,
-          y: 0,
-          scale: 1,
-          duration: 1.2,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: headerRef.current,
-            start: "top 80%",
-            end: "bottom 20%",
-            toggleActions: "play none none reverse",
-          },
-        },
-      )
-
-      // Horizontal scroll animation for service cards
-      const cards = servicesRefs.current.filter(Boolean)
-
-      if (cards.length > 0) {
-        // Create horizontal scroll timeline
-        const tl = gsap.timeline({
-          scrollTrigger: {
-            trigger: cardsRef.current,
-            start: "top 70%",
-            end: "bottom 30%",
-            scrub: 1,
-            pin: false,
-          },
-        })
-
-        // Animate cards from different directions
-        cards.forEach((card, index) => {
-          const isEven = index % 2 === 0
-
-          gsap.fromTo(
-            card,
-            {
-              opacity: 0,
-              x: isEven ? -200 : 200,
-              y: 50,
-              rotationY: isEven ? -15 : 15,
-              scale: 0.8,
-            },
-            {
-              opacity: 1,
-              x: 0,
-              y: 0,
-              rotationY: 0,
-              scale: 1,
-              duration: 1,
-              ease: "power2.out",
-              scrollTrigger: {
-                trigger: card,
-                start: "top 85%",
-                end: "top 50%",
-                toggleActions: "play none none reverse",
-                scrub: 0.5,
-              },
-            },
-          )
-
-          // Add floating animation on hover
-          card?.addEventListener("mouseenter", () => {
-            gsap.to(card, {
-              y: -20,
-              rotationX: 5,
-              rotationY: isEven ? 5 : -5,
-              scale: 1.05,
-              duration: 0.3,
-              ease: "power2.out",
-            })
-          })
-
-          card?.addEventListener("mouseleave", () => {
-            gsap.to(card, {
-              y: 0,
-              rotationX: 0,
-              rotationY: 0,
-              scale: 1,
-              duration: 0.3,
-              ease: "power2.out",
-            })
-          })
-        })
-
-        // Parallax effect for background elements
-        gsap.to(".bg-pattern-1", {
-          x: -100,
-          y: -50,
-          rotation: 10,
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top bottom",
-            end: "bottom top",
-            scrub: 1,
-          },
-        })
-
-        gsap.to(".bg-pattern-2", {
-          x: 100,
-          y: 50,
-          rotation: -10,
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top bottom",
-            end: "bottom top",
-            scrub: 1,
-          },
-        })
-      }
-    }, sectionRef)
-
-    return () => ctx.revert()
+  const handleSelect = useCallback((service: Service) => {
+    setSelectedService(service)
   }, [])
 
-  const handleServiceClick = (service: Service) => {
-    setSelectedService(service)
+  const handleClose = useCallback(() => {
+    setSelectedService(null)
+  }, [])
+
+  useEffect(() => {
+    if (!selectedService) return
+
+    const previousOverflow = document.body.style.overflow
     document.body.style.overflow = "hidden"
 
-    // Animate modal entrance
-    gsap.fromTo(
-      ".modal-content",
-      { scale: 0.5, opacity: 0, rotationY: 180 },
-      { scale: 1, opacity: 1, rotationY: 0, duration: 0.6, ease: "back.out(1.7)" },
-    )
-  }
-
-  const handleCloseModal = () => {
-    // Animate modal exit
-    gsap.to(".modal-content", {
-      scale: 0.5,
-      opacity: 0,
-      rotationY: -180,
-      duration: 0.4,
-      ease: "back.in(1.7)",
-      onComplete: () => {
-        setSelectedService(null)
-        document.body.style.overflow = "unset"
-      },
-    })
-  }
-
-  const handleKeyDown = (e: React.KeyboardEvent, service: Service) => {
-    if (e.key === "Enter" || e.key === " ") {
-      e.preventDefault()
-      handleServiceClick(service)
+    const handleKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") handleClose()
     }
-  }
+    window.addEventListener("keydown", handleKey)
 
-  const handleModalKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Escape") {
-      handleCloseModal()
+    return () => {
+      document.body.style.overflow = previousOverflow
+      window.removeEventListener("keydown", handleKey)
     }
-  }
+  }, [selectedService, handleClose])
 
   return (
     <section
-      ref={sectionRef}
-      className="relative py-24 sm:py-32 bg-gradient-to-br from-gray-900 via-black to-slate-900 overflow-hidden"
+      id="services"
+      aria-labelledby="services-heading"
+      className="relative overflow-hidden bg-gradient-to-b from-slate-950 via-black to-slate-950 py-20 sm:py-24 lg:py-32"
     >
-      {/* Enhanced Background Patterns with Parallax */}
-      <div className="bg-pattern-1 absolute top-20 left-10 w-96 h-96 bg-gradient-to-r from-emerald-500/10 to-teal-500/10 rounded-full blur-3xl pointer-events-none" />
-      <div className="bg-pattern-2 absolute bottom-20 right-10 w-80 h-80 bg-gradient-to-r from-violet-500/10 to-purple-500/10 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(120,119,198,0.05),transparent_50%)] pointer-events-none" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(14,165,233,0.05),transparent_50%)] pointer-events-none" />
-
-      <div ref={containerRef} className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Enhanced Header Section */}
-        <div ref={headerRef} className="text-center mb-20">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-slate-100/10 backdrop-blur-sm rounded-full text-sm font-medium text-slate-300 mb-6 border border-slate-700/50">
-            <div className="w-2 h-2 bg-gradient-to-r from-emerald-400 to-teal-500 rounded-full animate-pulse" />
-            {language === "en" ? "Professional Services" : "Layanan Profesional"}
-          </div>
-
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-slate-100 via-slate-200 to-slate-50 bg-clip-text text-transparent mb-6 leading-tight">
-            {language === "en" ? "Exceptional Digital" : "Digital yang Luar Biasa"}
-            <br />
-            <span className="bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">
-              {language === "en" ? "Solutions" : "Solusi"}
-            </span>
-          </h2>
-
-          <div className="w-32 h-1 bg-gradient-to-r from-emerald-400 to-teal-500 rounded-full mx-auto mb-8" />
-
-          <p className="text-xl sm:text-2xl text-slate-300 max-w-4xl mx-auto leading-relaxed font-light">
-            {language === "en"
-              ? "We deliver comprehensive digital solutions that transform ideas into exceptional experiences, combining technical excellence with creative innovation."
-              : "Kami menyediakan solusi digital komprehensif yang mengubah ide menjadi pengalaman luar biasa, menggabungkan keunggulan teknis dengan inovasi kreatif."}
-          </p>
-        </div>
-
-        {/* Enhanced Services Grid with 3D Effects */}
-        <div ref={cardsRef} className="grid md:grid-cols-2 gap-8 lg:gap-10 perspective-1000">
-          {services.map((service, index) => (
-            <div
-              key={service.id}
-              ref={(el) => (servicesRefs.current[index] = el)}
-              className="group relative transform-gpu"
-              style={{ transformStyle: "preserve-3d" }}
-            >
-              <div
-                className="relative bg-white/5 backdrop-blur-md rounded-3xl p-8 lg:p-10 shadow-2xl hover:shadow-emerald-500/20 transition-all duration-700 border border-slate-700/50 hover:border-slate-600/50 cursor-pointer group overflow-hidden"
-                onClick={() => handleServiceClick(service)}
-                role="button"
-                tabIndex={0}
-                onKeyDown={(e) => handleKeyDown(e, service)}
-                aria-label={`Learn more about ${service.title}`}
-              >
-                {/* Enhanced Background Effects */}
-                <div
-                  className={`absolute inset-0 bg-gradient-to-br ${service.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-700`}
-                />
-                <div
-                  className={`absolute inset-0 bg-gradient-to-r ${service.accentColor} opacity-0 group-hover:opacity-[0.02] transition-opacity duration-700`}
-                />
-
-                {/* Animated Icon with 3D Effect */}
-                <div
-                  className={`relative inline-flex p-4 rounded-2xl bg-gradient-to-r ${service.accentColor} text-white mb-8 shadow-lg group-hover:shadow-2xl transition-all duration-700 transform-gpu`}
-                >
-                  {service.icon}
-                  <div
-                    className={`absolute inset-0 bg-gradient-to-r ${service.accentColor} rounded-2xl blur-xl opacity-30 group-hover:opacity-60 transition-all duration-700`}
-                  />
-                  <div
-                    className={`absolute -inset-2 bg-gradient-to-r ${service.accentColor} rounded-3xl blur-2xl opacity-0 group-hover:opacity-20 transition-all duration-700`}
-                  />
-                </div>
-
-                {/* Enhanced Content */}
-                <div className="relative">
-                  <h3 className="text-2xl lg:text-3xl font-bold text-slate-100 mb-4 group-hover:text-white transition-colors duration-500">
-                    {service.title}
-                  </h3>
-                  <p className="text-slate-300 text-lg leading-relaxed mb-8 font-light group-hover:text-slate-200 transition-colors duration-500">
-                    {service.description}
-                  </p>
-
-                  {/* Enhanced CTA */}
-                  <div className="flex items-center text-slate-400 group-hover:text-slate-200 transition-all duration-500">
-                    <span className="flex items-center text-slate-300 group-hover:text-slate-400 group/btn w-full font-slikscreen justify-between p-0 h-auto 
-                             hover:text-slate-200 hover:bg-slate-300 
-                              transition-all duration-300 
-                              opacity-100 pointer-events-auto 
-                              lg:opacity-0 lg:pointer-events-none 
-                              group-hover:opacity-100 group-hover:pointer-events-auto">
-                      {language === "en" ? "Explore Service" : "Jelajahi Layanan"}
-                    </span>
-                    <ArrowRight className="w-5 h-5 ml-3 transition-all duration-500 group-hover:translate-x-3 group-hover:scale-125" />
-                  </div>
-                </div>
-
-                {/* Enhanced Decorative Elements */}
-                <div
-                  className={`absolute top-0 right-0 w-40 h-40 bg-gradient-to-br ${service.accentColor} rounded-full blur-3xl opacity-5 group-hover:opacity-15 transition-all duration-700 transform group-hover:scale-150`}
-                />
-                <div
-                  className={`absolute bottom-0 left-0 w-32 h-32 bg-gradient-to-tr ${service.accentColor} rounded-full blur-2xl opacity-5 group-hover:opacity-15 transition-all duration-700 transform group-hover:scale-150`}
-                />
-
-                {/* Glow Effect */}
-                <div
-                  className={`absolute inset-0 rounded-3xl bg-gradient-to-r ${service.accentColor} opacity-0 group-hover:opacity-10 blur-xl transition-all duration-700`}
-                />
-              </div>
-            </div>
-          ))}
-        </div>
+      <div className="pointer-events-none absolute inset-0" aria-hidden="true">
+        <div className="absolute left-1/4 top-0 h-72 w-72 -translate-x-1/2 rounded-full bg-emerald-500/5 blur-3xl sm:h-96 sm:w-96" />
+        <div className="absolute right-1/4 bottom-0 h-72 w-72 translate-x-1/2 rounded-full bg-violet-500/5 blur-3xl sm:h-96 sm:w-96" />
       </div>
 
-      {/* Enhanced Modal with 3D Animation */}
-      {selectedService && (
-        <div
-          className="fixed inset-0 bg-black/70 backdrop-blur-lg z-50 flex items-center justify-center p-4"
-          onClick={handleCloseModal}
-          onKeyDown={handleModalKeyDown}
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="modal-title"
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <motion.div
+          ref={headerRef}
+          initial="hidden"
+          animate={headerInView ? "visible" : "hidden"}
+          variants={containerVariants}
+          className="mx-auto max-w-3xl text-center"
         >
-          <div
-            className="modal-content bg-slate-900/95 backdrop-blur-sm rounded-3xl max-w-4xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-slate-700/50"
-            onClick={(e) => e.stopPropagation()}
-            style={{ transformStyle: "preserve-3d" }}
+          <motion.span
+            variants={cardVariants}
+            className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs font-medium text-slate-300 backdrop-blur sm:text-sm"
           >
-            <div className="p-8 lg:p-12">
-              {/* Modal Header */}
-              <div className="flex items-start justify-between mb-8">
-                <div className="flex items-center gap-6">
-                  <div
-                    className={`p-4 rounded-2xl bg-gradient-to-r ${selectedService.accentColor} text-white shadow-lg`}
-                  >
+            <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" aria-hidden="true" />
+            {copy.eyebrow}
+          </motion.span>
+
+          <motion.h2
+            id="services-heading"
+            variants={cardVariants}
+            className="mt-6 text-balance text-3xl font-semibold tracking-tight text-slate-100 sm:text-4xl lg:text-5xl"
+          >
+            {copy.titleLine1}{" "}
+            <span className="bg-gradient-to-r from-emerald-300 to-teal-400 bg-clip-text text-transparent">
+              {copy.titleLine2}
+            </span>
+          </motion.h2>
+
+          <motion.p
+            variants={cardVariants}
+            className="mt-5 text-pretty text-base leading-relaxed text-slate-400 sm:text-lg"
+          >
+            {copy.description}
+          </motion.p>
+        </motion.div>
+
+        <motion.div
+          ref={gridRef}
+          initial="hidden"
+          animate={gridInView ? "visible" : "hidden"}
+          variants={containerVariants}
+          className="mt-14 grid gap-6 sm:mt-16 sm:gap-8 md:grid-cols-2 lg:gap-10"
+        >
+          {services.map((service) => (
+            <motion.article
+              key={service.id}
+              variants={cardVariants}
+              className={`group relative flex h-full flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] p-6 backdrop-blur-sm transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/[0.05] hover:shadow-2xl hover:shadow-black/40 sm:rounded-3xl sm:p-8 lg:p-10 ${service.ring}`}
+            >
+              <div
+                className={`absolute inset-x-0 top-0 h-px bg-gradient-to-r ${service.accent} opacity-0 transition-opacity duration-300 group-hover:opacity-100`}
+                aria-hidden="true"
+              />
+
+              <div className={`inline-flex h-12 w-12 items-center justify-center rounded-xl ${service.iconBg}`}>
+                {service.icon}
+              </div>
+
+              <h3 className="mt-6 text-xl font-semibold text-slate-100 sm:text-2xl">
+                {service.title}
+              </h3>
+
+              <p className="mt-3 flex-1 text-sm leading-relaxed text-slate-400 sm:text-base">
+                {service.description}
+              </p>
+
+              <button
+                type="button"
+                onClick={() => handleSelect(service)}
+                aria-label={`${copy.explore}: ${service.title}`}
+                className="mt-8 inline-flex items-center gap-2 text-sm font-medium text-slate-200 transition-colors duration-300 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400/60 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950"
+              >
+                <span>{copy.explore}</span>
+                <ArrowRight
+                  className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"
+                  aria-hidden="true"
+                />
+              </button>
+            </motion.article>
+          ))}
+        </motion.div>
+      </div>
+
+      <AnimatePresence>
+        {selectedService && (
+          <motion.div
+            key="service-modal"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 px-4 py-8 backdrop-blur-md sm:px-6"
+            onClick={handleClose}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="service-modal-title"
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.96, y: 12 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.96, y: 12 }}
+              transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+              onClick={(event) => event.stopPropagation()}
+              className="relative flex max-h-[90vh] w-full max-w-3xl flex-col overflow-hidden rounded-2xl border border-white/10 bg-slate-950/95 shadow-2xl"
+            >
+              <header className="flex items-start justify-between gap-4 border-b border-white/5 p-6 sm:p-8">
+                <div className="flex items-center gap-4">
+                  <div className={`inline-flex h-12 w-12 items-center justify-center rounded-xl ${selectedService.iconBg}`}>
                     {selectedService.icon}
                   </div>
                   <div>
-                    <h3 id="modal-title" className="text-3xl lg:text-4xl font-bold text-slate-100 mb-2">
+                    <h3
+                      id="service-modal-title"
+                      className="text-xl font-semibold text-slate-100 sm:text-2xl"
+                    >
                       {selectedService.title}
                     </h3>
-                    <div className={`w-16 h-1 bg-gradient-to-r ${selectedService.accentColor} rounded-full`} />
+                    <div
+                      className={`mt-2 h-0.5 w-12 rounded-full bg-gradient-to-r ${selectedService.accent}`}
+                      aria-hidden="true"
+                    />
                   </div>
                 </div>
                 <button
-                  onClick={handleCloseModal}
-                  className="p-3 hover:bg-slate-800 rounded-full transition-all duration-200 hover:scale-110 text-slate-400 hover:text-slate-200"
-                  aria-label="Close modal"
+                  type="button"
+                  onClick={handleClose}
+                  aria-label={copy.close}
+                  className="inline-flex h-9 w-9 items-center justify-center rounded-full text-slate-400 transition-colors duration-200 hover:bg-white/5 hover:text-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400/60"
                 >
-                  <X className="w-6 h-6" />
+                  <X className="h-5 w-5" aria-hidden="true" />
                 </button>
-              </div>
+              </header>
 
-              {/* Modal Content */}
-              <div className="grid lg:grid-cols-2 gap-12">
+              <div className="grid gap-8 overflow-y-auto p-6 sm:p-8 lg:grid-cols-2">
                 <div>
-                  <p className="text-slate-300 text-xl leading-relaxed mb-10 font-light">
+                  <p className="text-sm leading-relaxed text-slate-300 sm:text-base">
                     {selectedService.description}
                   </p>
 
-                  <div className="mb-10">
-                    <h4 className="text-2xl font-bold text-slate-100 mb-6 flex items-center gap-3">
-                      <div className={`w-3 h-3 rounded-full bg-gradient-to-r ${selectedService.accentColor}`} />
-                      {language === "en" ? "Key Features" : "Fitur Utama"}
+                  <section className="mt-8" aria-labelledby="service-features-heading">
+                    <h4
+                      id="service-features-heading"
+                      className="flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-slate-400"
+                    >
+                      <span
+                        className={`h-2 w-2 rounded-full bg-gradient-to-r ${selectedService.accent}`}
+                        aria-hidden="true"
+                      />
+                      {copy.features}
                     </h4>
-                    <ul className="space-y-4">
-                      {selectedService.features.map((feature, index) => (
-                        <li key={index} className="flex items-start gap-4 group">
-                          <CheckCircle className="w-6 h-6 text-emerald-400 mt-0.5 flex-shrink-0 transition-transform duration-200 group-hover:scale-110" />
-                          <span className="text-slate-300 text-lg leading-relaxed">{feature}</span>
+                    <ul className="mt-4 space-y-3">
+                      {selectedService.features.map((feature) => (
+                        <li key={feature} className="flex items-start gap-3 text-sm text-slate-300 sm:text-base">
+                          <CheckCircle2
+                            className="mt-0.5 h-4 w-4 flex-shrink-0 text-emerald-400"
+                            aria-hidden="true"
+                          />
+                          <span className="leading-relaxed">{feature}</span>
                         </li>
                       ))}
                     </ul>
-                  </div>
+                  </section>
                 </div>
 
-                <div>
-                  <h4 className="text-2xl font-bold text-slate-100 mb-6 flex items-center gap-3">
-                    <div className={`w-3 h-3 rounded-full bg-gradient-to-r ${selectedService.accentColor}`} />
-                    {language === "en" ? "Technologies" : "Teknologi"}
+                <section aria-labelledby="service-technologies-heading">
+                  <h4
+                    id="service-technologies-heading"
+                    className="flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-slate-400"
+                  >
+                    <span
+                      className={`h-2 w-2 rounded-full bg-gradient-to-r ${selectedService.accent}`}
+                      aria-hidden="true"
+                    />
+                    {copy.technologies}
                   </h4>
-                  <div className="grid grid-cols-2 gap-4">
-                    {selectedService.technologies.map((tech, index) => (
-                      <div
-                        key={index}
-                        className={`group px-6 py-4 bg-gradient-to-r ${selectedService.accentColor} text-white rounded-2xl text-center font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 cursor-default`}
+                  <ul className="mt-4 grid grid-cols-2 gap-3">
+                    {selectedService.technologies.map((tech) => (
+                      <li
+                        key={tech}
+                        className="rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-center text-sm font-medium text-slate-200"
                       >
-                        <span className="relative z-10">{tech}</span>
-                      </div>
+                        {tech}
+                      </li>
                     ))}
-                  </div>
-                </div>
+                  </ul>
+                </section>
               </div>
-            </div>
-          </div>
-        </div>
-      )}
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   )
 }

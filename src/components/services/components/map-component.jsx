@@ -1,49 +1,102 @@
+"use client";
+
 import React, { useEffect, useRef, useState } from "react";
-import { motion, useAnimation } from 'framer-motion';
-import { MapPin, Navigation, Copy, Check } from "lucide-react";
+import { motion, useAnimation } from "framer-motion";
 import { useInView } from "react-intersection-observer";
-import { useLanguage } from '../../../LanguageContext';
+import { Check, Copy, MapPin, Navigation } from "lucide-react";
+import { useLanguage } from "../../../LanguageContext";
+
+const COPY = {
+  en: {
+    eyebrow: "Visit Us",
+    title: "Find us on the map",
+    description:
+      "Stop by our location at the heart of the city, where innovation meets convenience.",
+    currentLocation: "Current location",
+    loading: "Loading address…",
+    notFound: "Address not found",
+    error: "Unable to load address",
+    centerMap: "Center map",
+    copyAddress: "Copy address",
+    copied: "Copied!",
+    locationLabel: "Location",
+  },
+  id: {
+    eyebrow: "Kunjungi Kami",
+    title: "Temukan kami di peta",
+    description:
+      "Mampirlah ke lokasi kami di jantung kota, tempat inovasi bertemu kenyamanan.",
+    currentLocation: "Lokasi saat ini",
+    loading: "Memuat alamat…",
+    notFound: "Alamat tidak ditemukan",
+    error: "Tidak dapat memuat alamat",
+    centerMap: "Pusatkan peta",
+    copyAddress: "Salin alamat",
+    copied: "Tersalin!",
+    locationLabel: "Lokasi",
+  },
+};
+
+const ZOOM = 15;
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.12, delayChildren: 0.1 },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] },
+  },
+};
 
 export default function MapComponent() {
   const mapRef = useRef(null);
-  const latitude = import.meta.env.VITE_LATITUDE;
-  const longitude = import.meta.env.VITE_LONGITUDE;
-  const zoom = 15;
   const mapInstanceRef = useRef(null);
   const controls = useAnimation();
-  const [address, setAddress] = useState("Loading address...");
-  const [copied, setCopied] = useState(false);
-  const [isMapHovered, setIsMapHovered] = useState(false);
   const { language } = useLanguage();
-  const [ref, inView] = useInView({
-    triggerOnce: false,
-    threshold: 0.1,
-  });
+  const copy = COPY[language] ?? COPY.en;
+
+  const latitude = import.meta.env.VITE_LATITUDE;
+  const longitude = import.meta.env.VITE_LONGITUDE;
+
+  const [address, setAddress] = useState(copy.loading);
+  const [copied, setCopied] = useState(false);
+  const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.15 });
 
   useEffect(() => {
-    if (inView) {
-      controls.start('visible');
-    } else {
-      controls.start('hidden');
-    }
+    if (inView) controls.start("visible");
   }, [controls, inView]);
 
   useEffect(() => {
+    let isCancelled = false;
+
     const fetchAddress = async () => {
       try {
         const response = await fetch(
           `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&zoom=18&addressdetails=1`
         );
         const data = await response.json();
-        setAddress(data.display_name || "Address not found");
+        if (isCancelled) return;
+        setAddress(data.display_name || copy.notFound);
       } catch (error) {
         console.error("Error fetching address:", error);
-        setAddress("Unable to load address");
+        if (!isCancelled) setAddress(copy.error);
       }
     };
 
     fetchAddress();
-  }, [latitude, longitude]);
+
+    return () => {
+      isCancelled = true;
+    };
+  }, [latitude, longitude, copy.notFound, copy.error]);
 
   useEffect(() => {
     const loadLeaflet = async () => {
@@ -56,107 +109,60 @@ export default function MapComponent() {
         document.head.appendChild(link);
       }
 
-      if (!window.L) {
+      if (window.L) return;
+
+      await new Promise((resolve, reject) => {
         const script = document.createElement("script");
         script.src = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js";
         script.integrity = "sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=";
         script.crossOrigin = "";
-        return new Promise((resolve) => {
-          script.onload = resolve;
-          document.head.appendChild(script);
-        });
-      }
+        script.onload = resolve;
+        script.onerror = reject;
+        document.head.appendChild(script);
+      });
     };
 
     const initializeMap = async () => {
       await loadLeaflet();
 
-      if (mapRef.current && window.L && !mapInstanceRef.current) {
-        const map = window.L.map(mapRef.current).setView([latitude, longitude], zoom);
+      if (!mapRef.current || !window.L || mapInstanceRef.current) return;
 
-        window.L.tileLayer(
-          "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-          {
-            attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-          }
-        ).addTo(map);
+      const map = window.L.map(mapRef.current, { scrollWheelZoom: false }).setView(
+        [latitude, longitude],
+        ZOOM
+      );
 
-        const customIcon = window.L.divIcon({
-          html: `
-            <div style="
-              background: #6366f1;
-              width: 28px;
-              height: 28px;
-              border-radius: 50% 50% 50% 0;
-              transform: rotate(-45deg);
-              border: 3px solid #ffffff;
-              box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-            ">
-              <div style="
-                width: 8px;
-                height: 8px;
-                background: #ffffff;
-                border-radius: 50%;
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%) rotate(45deg);
-              "></div>
-            </div>
-          `,
-          className: "custom-marker",
-          iconSize: [28, 28],
-          iconAnchor: [14, 28],
-        });
+      window.L.tileLayer(
+        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+        {
+          attribution:
+            '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        }
+      ).addTo(map);
 
-        const marker = window.L.marker([latitude, longitude], {
-          icon: customIcon,
-        }).addTo(map);
-
-        marker.bindPopup(`
-          <div>
-            <style>
-              @media (max-width: 640px) {
-                .popup-content {
-                  max-width: 55vw !important;
-                }
-              }
-              @media (min-width: 641px) {
-                .popup-content {
-                  max-width: 100vw !important;
-                }
-              }
-            </style>
-            <div class="popup-content" style="
-              background: #1f2937;
-              color: #f9fafb;
-              padding: 12px;
-              border-radius: 8px;
-              box-sizing: border-box;
-              font-size: 14px;
-              word-break: break-word;
-            ">
-              <h3 style="
-                font-weight: 600;
-                font-size: 16px;
-                margin-bottom: 8px;
-                color: #f9fafb;
-              ">📍 Location</h3>
-              <p style="
-                font-size: 12px;
-                color: #d1d5db;
-                margin-bottom: 8px;
-                word-break: break-word;
-              ">
-                ${address.length > 50 ? address.substring(0, 50) + "..." : address}
-              </p>
-            </div>
+      const customIcon = window.L.divIcon({
+        html: `
+          <div class="map-marker">
+            <div class="map-marker__pin"></div>
+            <div class="map-marker__dot"></div>
           </div>
-        `);
-        
+        `,
+        className: "custom-marker",
+        iconSize: [28, 36],
+        iconAnchor: [14, 32],
+      });
 
-        mapInstanceRef.current = map;
-      }
+      const marker = window.L.marker([latitude, longitude], {
+        icon: customIcon,
+      }).addTo(map);
+
+      marker.bindPopup(
+        `<div class="map-popup"><strong>${copy.locationLabel}</strong><br/>${
+          address.length > 80 ? `${address.substring(0, 80)}…` : address
+        }</div>`
+      );
+
+      mapInstanceRef.current = map;
     };
 
     initializeMap();
@@ -167,168 +173,173 @@ export default function MapComponent() {
         mapInstanceRef.current = null;
       }
     };
-  }, [latitude, longitude, zoom, address]);
+  }, [latitude, longitude, address, copy.locationLabel]);
 
   const centerMap = () => {
     if (mapInstanceRef.current) {
-      mapInstanceRef.current.setView([latitude, longitude], zoom);
+      mapInstanceRef.current.setView([latitude, longitude], ZOOM);
     }
   };
 
-  const copyCoordinates = async () => {
+  const copyAddress = async () => {
     try {
-      await navigator.clipboard.writeText(`${address}`);
+      await navigator.clipboard.writeText(address);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
-    } catch (err) {
-      console.error("Failed to copy coordinates:", err);
-    }
-  };
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.6,
-        ease: [0.22, 1, 0.36, 1],
-      },
-    },
-  };
-
-  const decorationVariants = {
-    hidden: { opacity: 0, scale: 0.8 },
-    visible: { 
-      opacity: 1, 
-      scale: 1,
-      transition: { 
-        duration: 0.8,
-        ease: [0.22, 1, 0.36, 1]
-      }
+    } catch (error) {
+      console.error("Failed to copy address:", error);
     }
   };
 
   return (
-    <section ref={ref} className="py-24 bg-gray-900 relative overflow-hidden">
-      <motion.div
-        variants={decorationVariants}
-        initial="hidden"
-        animate={controls}
-        className="absolute top-0 right-0 w-96 h-96 bg-purple-500/10 rounded-full -translate-y-1/2 translate-x-1/3 blur-3xl"
-      />
-      <motion.div
-        variants={decorationVariants}
-        initial="hidden"
-        animate={controls}
-        className="absolute bottom-0 left-0 w-80 h-80 bg-indigo-500/10 rounded-full translate-y-1/2 -translate-x-1/3 blur-3xl"
-      />
+    <section
+      ref={ref}
+      aria-labelledby="map-heading"
+      className="relative overflow-hidden bg-gray-950 py-20 sm:py-24 lg:py-32"
+    >
+      <style>{`
+        .map-marker {
+          position: relative;
+          width: 28px;
+          height: 36px;
+        }
+        .map-marker__pin {
+          position: absolute;
+          inset: 0 0 8px 0;
+          background: #6366f1;
+          border-radius: 50% 50% 50% 0;
+          transform: rotate(-45deg);
+          transform-origin: center;
+          border: 2px solid #ffffff;
+          box-shadow: 0 6px 16px rgba(0,0,0,0.35);
+        }
+        .map-marker__dot {
+          position: absolute;
+          top: 9px;
+          left: 50%;
+          width: 8px;
+          height: 8px;
+          background: #ffffff;
+          border-radius: 9999px;
+          transform: translateX(-50%);
+        }
+        .map-popup {
+          background: #111827;
+          color: #f9fafb;
+          padding: 10px 12px;
+          border-radius: 8px;
+          font-size: 13px;
+          line-height: 1.4;
+          max-width: 240px;
+          word-break: break-word;
+        }
+        .map-popup strong {
+          color: #f9fafb;
+          font-size: 14px;
+        }
+        .leaflet-popup-content-wrapper,
+        .leaflet-popup-tip {
+          background: transparent !important;
+          box-shadow: none !important;
+        }
+        .leaflet-popup-content { margin: 0 !important; }
+      `}</style>
 
-      <motion.div
-        initial="hidden"
-        animate={controls}
-        variants={containerVariants}
-        className="container mx-auto px-6 relative z-10"
-      >
-        <div className="max-w-5xl mx-auto">
-          <motion.div 
-            variants={containerVariants}
-            initial="hidden"
-            animate={controls}
-            className="mb-8 text-center"
-          >
-            <motion.h2 
-              variants={itemVariants}
-              className="text-4xl font-bold text-white mb-4"
-            >
-              {language === 'en' ? 'Location' : 'Lokasi'}
-            </motion.h2>
-            <motion.div 
-              variants={itemVariants}
-              className="h-1 w-24 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full mx-auto mb-6" 
-            />
-            <motion.p 
-              variants={itemVariants}
-              className="text-gray-300 max-w-2xl mx-auto"
-            >
-              {language === 'en'
-                ? 'Find us at the heart of the city, where innovation meets convenience.'
-                : 'Temukan kami di pusat kota, di mana inovasi bertemu kenyamanan.'}
-            </motion.p>
-          </motion.div>
+      <div className="pointer-events-none absolute inset-0" aria-hidden="true">
+        <div className="absolute right-0 top-0 h-72 w-72 translate-x-1/3 -translate-y-1/3 rounded-full bg-purple-500/10 blur-3xl sm:h-96 sm:w-96" />
+        <div className="absolute left-0 bottom-0 h-72 w-72 -translate-x-1/3 translate-y-1/3 rounded-full bg-indigo-500/10 blur-3xl sm:h-96 sm:w-96" />
+      </div>
 
-          <motion.div 
-            variants={containerVariants}
-            initial="hidden"
-            animate={controls}
-            className="bg-gray-800 rounded-2xl p-6 shadow-xl border border-gray-700"
+      <div className="relative mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+        <motion.div
+          initial="hidden"
+          animate={controls}
+          variants={containerVariants}
+          className="mx-auto max-w-3xl text-center"
+        >
+          <motion.span
+            variants={itemVariants}
+            className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs font-medium text-slate-300 backdrop-blur sm:text-sm"
           >
-            <motion.div 
-              variants={itemVariants}
-              className="mb-6"
-            >
-              <div className="flex items-center gap-3 mb-4">
-                <div className="p-2 bg-indigo-500/20 rounded-lg">
-                  <MapPin className="text-indigo-400" size={24} />
-                </div>
-                <h3 className="text-xl font-semibold text-white">
-                  {language === 'en' ? 'Current Location' : 'Lokasi Saat Ini'}
+            <MapPin className="h-3.5 w-3.5 text-indigo-300" aria-hidden="true" />
+            {copy.eyebrow}
+          </motion.span>
+
+          <motion.h2
+            id="map-heading"
+            variants={itemVariants}
+            className="mt-6 text-balance text-3xl font-semibold tracking-tight text-white sm:text-4xl lg:text-5xl"
+          >
+            {copy.title}
+          </motion.h2>
+
+          <motion.p
+            variants={itemVariants}
+            className="mt-5 text-pretty text-base leading-relaxed text-slate-400 sm:text-lg"
+          >
+            {copy.description}
+          </motion.p>
+        </motion.div>
+
+        <motion.div
+          initial="hidden"
+          animate={controls}
+          variants={containerVariants}
+          className="mt-12 overflow-hidden rounded-2xl border border-white/10 bg-slate-900/60 shadow-2xl backdrop-blur sm:mt-16 sm:rounded-3xl"
+        >
+          <motion.div
+            variants={itemVariants}
+            className="flex flex-col gap-5 border-b border-white/5 p-6 sm:flex-row sm:items-start sm:justify-between sm:p-8"
+          >
+            <div className="flex items-start gap-4">
+              <div className="inline-flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-indigo-500/15 text-indigo-300">
+                <MapPin className="h-5 w-5" aria-hidden="true" />
+              </div>
+              <div className="min-w-0">
+                <h3 className="text-base font-semibold text-white sm:text-lg">
+                  {copy.currentLocation}
                 </h3>
+                <p className="mt-1 break-words text-sm text-slate-400 sm:text-base">
+                  {address}
+                </p>
               </div>
-              <p className="text-gray-300 font-pixel text-sm mb-4">{address}</p>
+            </div>
 
-              <div className="flex flex-wrap gap-3">
-                <motion.button
-                  whileHover={{ scale: 0.95 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={centerMap}
-                  className="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-500 transition-all duration-300"
-                >
-                  <Navigation size={18} />
-                  {language === 'en' ? 'Center Map' : 'Pusatkan Peta'}
-                </motion.button>
-                <motion.button
-                  whileHover={{ scale: 0.95 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={copyCoordinates}
-                  className="flex items-center gap-2 px-4 py-2 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition-all duration-300"
-                >
-                  {copied ? <Check size={18} /> : <Copy size={18} />}
-                  {copied
-                    ? (language === 'en' ? 'Copied!' : 'Tersalin!')
-                    : (language === 'en' ? 'Copy Address' : 'Salin Alamat')}
-                </motion.button>
-              </div>
-            </motion.div>
-
-            <motion.div 
-              variants={itemVariants}
-              className="relative"
-            >
-              <div
-                ref={mapRef}
-                onMouseEnter={() => setIsMapHovered(true)}
-                onMouseLeave={() => setIsMapHovered(false)}
-                className="w-full lg:h-[500px] h-[300px] rounded-xl overflow-hidden transition-all duration-300"
-                style={{
-                  filter: isMapHovered ? 'none' : 'grayscale(100%)',
-                  opacity: isMapHovered ? 1 : 0.8,
-                }}
-              />
-            </motion.div>
+            <div className="flex flex-wrap gap-3 sm:flex-shrink-0">
+              <button
+                type="button"
+                onClick={centerMap}
+                className="inline-flex items-center gap-2 rounded-lg bg-indigo-500 px-4 py-2.5 text-sm font-medium text-white transition-all duration-300 hover:bg-indigo-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300/60"
+              >
+                <Navigation className="h-4 w-4" aria-hidden="true" />
+                {copy.centerMap}
+              </button>
+              <button
+                type="button"
+                onClick={copyAddress}
+                aria-live="polite"
+                className="inline-flex items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-4 py-2.5 text-sm font-medium text-slate-200 transition-all duration-300 hover:border-white/20 hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300/60"
+              >
+                {copied ? (
+                  <Check className="h-4 w-4 text-emerald-400" aria-hidden="true" />
+                ) : (
+                  <Copy className="h-4 w-4" aria-hidden="true" />
+                )}
+                {copied ? copy.copied : copy.copyAddress}
+              </button>
+            </div>
           </motion.div>
-        </div>
-      </motion.div>
+
+          <motion.div variants={itemVariants} className="relative">
+            <div
+              ref={mapRef}
+              className="h-[320px] w-full sm:h-[420px] lg:h-[500px]"
+              aria-label={copy.title}
+              role="region"
+            />
+          </motion.div>
+        </motion.div>
+      </div>
     </section>
   );
 }
