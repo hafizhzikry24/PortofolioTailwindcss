@@ -1,130 +1,137 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { createClient } from "@supabase/supabase-js";
-import { useInView } from "react-intersection-observer";
+import { motion, AnimatePresence, useInView } from "framer-motion";
 import { Send, MessageSquare, User, Calendar } from "lucide-react";
 import { useLanguage } from "../../../LanguageContext";
 import Swal from "sweetalert2";
 
-// Initialize Supabase client
+// ─── Supabase ─────────────────────────────────────────────────────────────────
 const supabaseUrl = import.meta.env.VITE_SUPABASE_API;
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_KEY;
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
+// ─── Profanity Filter ─────────────────────────────────────────────────────────
+const FORBIDDEN_WORDS = [
+  "gay", "pantek", "bodoh", "kontol", "bajingan", "bangsat", "homo",
+  "aku suka cowo", "lesbian", "biseksual", "lgbt", "p gay", "homoseksual",
+  "cinta sesama jenis", "cinta gay", "hubungan sesama jenis", "cinta homo",
+  "hubungan homo", "tolol", "anjing", "goblok", "brengsek", "sialan",
+  "monyet", "setan", "iblis", "jahanam", "laknat", "kasar", "perek",
+  "lonte", "sundal", "janda", "cabul", "mesum", "bejad", "porno",
+  "maksiat", "seks", "pornoaksi", "esek-esek", "jijik", "teler",
+  "pemabuk", "mabuk", "narkoba", "sabu", "ganja", "heroin", "kecanduan",
+  "melacur", "pelacur", "gila", "banci", "otak mesum", "masturbasi",
+  "stupid", "idiot", "moron", "bastard", "dumb", "slut", "whore",
+  "bitch", "jerk", "damn", "crap", "hell", "suck", "loser", "trash",
+  "pervert", "freak", "sicko", "degenerate", "creep", "gross", "nasty",
+  "dirty", "drunk", "druggie", "addict", "high", "pothead", "stoned",
+  "weed", "cocaine", "meth", "sex", "porn", "masturbate", "obscene", "vulgar",
+];
+
+const containsForbiddenWords = (text) => {
+  const regex = new RegExp(FORBIDDEN_WORDS.join("|"), "i");
+  return regex.test(text);
+};
+
+// ─── Motion Variants ──────────────────────────────────────────────────────────
+const sectionVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.12, delayChildren: 0.08 },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 28 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { type: "spring", damping: 18, stiffness: 90 },
+  },
+};
+
+const cardEntryVariants = {
+  initial: { opacity: 0, y: -18, scale: 0.97 },
+  animate: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: { type: "spring", damping: 20, stiffness: 100 },
+  },
+  exit: { opacity: 0, scale: 0.95, transition: { duration: 0.15 } },
+};
+
+// ─── Background Dot Grid ──────────────────────────────────────────────────────
+const DotGrid = () => (
+  <div
+    aria-hidden="true"
+    className="pointer-events-none absolute inset-0 opacity-[0.055]"
+    style={{
+      backgroundImage: "radial-gradient(circle, #52525b 1.2px, transparent 1.2px)",
+      backgroundSize: "22px 22px",
+    }}
+  />
+);
+
+// ─── Comment Card ─────────────────────────────────────────────────────────────
+const CommentCard = ({ feedback, index }) => (
+  <motion.article
+    layout
+    variants={cardEntryVariants}
+    initial="initial"
+    animate="animate"
+    exit="exit"
+    whileHover={{
+      x: -2,
+      y: -2,
+      boxShadow: "5px 5px 0px 0px #18181b",
+      transition: { type: "spring", damping: 22, stiffness: 300 },
+    }}
+    whileTap={{ scale: 0.99 }}
+    style={{ boxShadow: "4px 4px 0px 0px #18181b" }}
+    className="border-2 border-zinc-900 bg-white p-5"
+    aria-label={`Comment from ${feedback.name}`}
+  >
+    <div className="mb-3 flex items-start justify-between gap-3">
+      <div>
+        <span className="font-mono text-[10px] font-bold tracking-widest text-purple-500">
+          {String(index + 1).padStart(2, "0")} / GUEST
+        </span>
+        <h3 className="mt-0.5 font-mono text-base font-black uppercase leading-tight tracking-tight text-zinc-900 sm:text-lg">
+          {feedback.name}
+        </h3>
+      </div>
+      <span className="flex-shrink-0 border border-purple-400 bg-purple-50 px-2 py-0.5 font-mono text-[9px] uppercase tracking-widest text-purple-600">
+        MSG
+      </span>
+    </div>
+
+    <p className="border-l-2 border-purple-400 pl-3 text-sm leading-relaxed text-zinc-700">
+      {feedback.messages}
+    </p>
+
+    <div className="mt-4 flex items-center gap-1.5 font-mono text-[10px] text-zinc-400">
+      <Calendar size={10} aria-hidden="true" />
+      <span>{feedback.created_at}</span>
+    </div>
+  </motion.article>
+);
+
+// ─── Main Component ────────────────────────────────────────────────────────────
 function Comment() {
+  const { language } = useLanguage();
   const [name, setName] = useState("");
   const [message, setMessage] = useState("");
-  const { language } = useLanguage();
-  const forbiddenWords = [
-    "gay",
-    "pantek",
-    "bodoh",
-    "kontol",
-    "bajingan",
-    "bangsat",
-    "homo",
-    "aku suka cowo",
-    "lesbian",
-    "biseksual",
-    "lgbt",
-    "p gay",
-    "homoseksual",
-    "cinta sesama jenis",
-    "cinta gay",
-    "hubungan sesama jenis",
-    "cinta homo",
-    "hubungan homo",
-    "tolol",
-    "anjing",
-    "goblok",
-    "brengsek",
-    "sialan",
-    "monyet",
-    "setan",
-    "iblis",
-    "jahanam",
-    "laknat",
-    "kasar",
-    "perek",
-    "lonte",
-    "sundal",
-    "janda",
-    "cabul",
-    "mesum",
-    "bejad",
-    "porno",
-    "maksiat",
-    "seks",
-    "pornoaksi",
-    "porno",
-    "esek-esek",
-    "jijik",
-    "teler",
-    "pemabuk",
-    "mabuk",
-    "narkoba",
-    "sabu",
-    "ganja",
-    "heroin",
-    "kecanduan",
-    "melacur",
-    "pelacur",
-    "gila",
-    "banci",
-    "otak mesum",
-    "masturbasi",
-    "stupid",
-    "idiot",
-    "moron",
-    "bastard",
-    "dumb",
-    "slut",
-    "whore",
-    "bitch",
-    "jerk",
-    "damn",
-    "crap",
-    "hell",
-    "suck",
-    "loser",
-    "trash",
-    "pervert",
-    "freak",
-    "sicko",
-    "degenerate",
-    "creep",
-    "gross",
-    "nasty",
-    "dirty",
-    "drunk",
-    "druggie",
-    "addict",
-    "high",
-    "pothead",
-    "stoned",
-    "weed",
-    "heroin",
-    "cocaine",
-    "meth",
-    "sex",
-    "porn",
-    "masturbate",
-    "obscene",
-    "vulgar",
-  ];
-
-  const containsForbiddenWords = (message) => {
-    const regex = new RegExp(forbiddenWords.join("|"), "i"); // 'i' for case insensitive
-    return regex.test(message);
-  };
-
   const [feedbackList, setFeedbackList] = useState([]);
-  const { ref: contentRef, inView: isContentVisible } = useInView({
-    triggerOnce: false,
-    threshold: 0.1,
-  });
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, amount: 0.08 });
+
+  const isEn = language === "en";
 
   useEffect(() => {
     fetchFeedbackList();
@@ -142,19 +149,19 @@ function Comment() {
         return;
       }
 
-      const formattedData = data.map((feedback) => ({
-        ...feedback,
-        created_at: new Date(feedback.created_at).toLocaleDateString("en-US", {
-          weekday: "long",
-          year: "numeric",
-          month: "long",
-          day: "numeric",
-        }),
-      }));
-
-      setFeedbackList(formattedData);
-    } catch (error) {
-      console.error("Unexpected error fetching feedback:", error);
+      setFeedbackList(
+        data.map((f) => ({
+          ...f,
+          created_at: new Date(f.created_at).toLocaleDateString("en-US", {
+            weekday: "long",
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          }),
+        }))
+      );
+    } catch (err) {
+      console.error("Unexpected error fetching feedback:", err);
     }
   };
 
@@ -162,13 +169,11 @@ function Comment() {
     if (!name || !message) {
       await Swal.fire({
         icon: "warning",
-        title:
-          language === "en" ? "Missing Information" : "Informasi Tidak Lengkap",
-        text:
-          language === "en"
-            ? "Please provide both name and message."
-            : "Mohon isi nama dan pesan.",
-        confirmButtonText: language === "en" ? "Okay" : "Baik",
+        title: isEn ? "Missing Information" : "Informasi Tidak Lengkap",
+        text: isEn
+          ? "Please provide both name and message."
+          : "Mohon isi nama dan pesan.",
+        confirmButtonText: isEn ? "Okay" : "Baik",
         confirmButtonColor: "#6366f1",
       });
       return;
@@ -177,12 +182,11 @@ function Comment() {
     if (containsForbiddenWords(message)) {
       await Swal.fire({
         icon: "error",
-        title: language === "en" ? "Oops..." : "Ups...",
-        text:
-          language === "en"
-            ? "Your message contains inappropriate content."
-            : "Pesan Anda mengandung konten yang tidak pantas.",
-        confirmButtonText: language === "en" ? "Okay" : "Baik",
+        title: isEn ? "Oops..." : "Ups...",
+        text: isEn
+          ? "Your message contains inappropriate content."
+          : "Pesan Anda mengandung konten yang tidak pantas.",
+        confirmButtonText: isEn ? "Okay" : "Baik",
         confirmButtonColor: "#6366f1",
       });
       return;
@@ -192,40 +196,34 @@ function Comment() {
 
     try {
       const createdAt = new Date().toISOString();
-
-      const { data, error } = await supabase
+      const { error } = await supabase
         .from("feedback")
         .insert([{ name, messages: message, created_at: createdAt }]);
 
       if (error) {
         console.error("Error submitting feedback:", error);
-        setIsSubmitting(false);
         return;
       }
 
-      const formattedCreatedAt = new Date(createdAt).toLocaleDateString(
-        "en-US",
-        {
-          weekday: "long",
-          year: "numeric",
-          month: "long",
-          day: "numeric",
-        }
-      );
+      const formattedDate = new Date(createdAt).toLocaleDateString("en-US", {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      });
 
       setFeedbackList([
-        { name, messages: message, created_at: formattedCreatedAt },
+        { name, messages: message, created_at: formattedDate },
         ...feedbackList,
       ]);
 
       await Swal.fire({
         icon: "success",
-        title: language === "en" ? "Thank You!" : "Terima Kasih!",
-        text:
-          language === "en"
-            ? "Your feedback has been submitted successfully."
-            : "Feedback Anda telah berhasil dikirim.",
-        confirmButtonText: language === "en" ? "Great!" : "Bagus!",
+        title: isEn ? "Thank You!" : "Terima Kasih!",
+        text: isEn
+          ? "Your feedback has been submitted successfully."
+          : "Feedback Anda telah berhasil dikirim.",
+        confirmButtonText: isEn ? "Great!" : "Bagus!",
         confirmButtonColor: "#6366f1",
         timer: 2000,
         timerProgressBar: true,
@@ -233,151 +231,239 @@ function Comment() {
 
       setName("");
       setMessage("");
-    } catch (error) {
-      console.error("Unexpected error submitting feedback:", error);
+    } catch (err) {
+      console.error("Unexpected error submitting feedback:", err);
     } finally {
       setIsSubmitting(false);
     }
   };
 
+  const inputClass =
+    "w-full border-2 border-zinc-300 bg-zinc-50 px-3 py-2.5 font-mono text-sm text-zinc-900 placeholder:text-zinc-400 focus:border-purple-500 focus:bg-white focus:outline-none transition-colors duration-150";
+
   return (
     <section
-      ref={contentRef}
-      className={`text-gray-600 body-font relative bg-gradient-to-br from-slate-50 to-slate-100 py-16 sm:py-20 transition-all duration-1000 ease-in-out transform ${
-        isContentVisible
-          ? "opacity-100 translate-y-0"
-          : "opacity-0 translate-y-10"
-      }`}
       id="comment"
+      aria-labelledby="comment-heading"
+      className="relative overflow-hidden bg-zinc-50"
     >
-      <div className="absolute inset-0 bg-grid-slate-100 [mask-image:linear-gradient(0deg,rgba(255,255,255,0.5),rgba(255,255,255,0.8))] bg-fixed opacity-20"></div>
+      <DotGrid />
 
-      <div className="container px-5 py-2 mx-auto relative z-10">
-        <div className="flex flex-col text-center w-full mb-12">
-          <h1 className="sm:text-4xl text-3xl font-bold title-font mb-4 text-gray-900 tracking-tight">
-            {language === "en" ? "Greetings" : "Sapa Saya"}
-          </h1>
-          <div className="h-1 w-20 bg-gradient-to-r from-purple-500 to-indigo-500 rounded mx-auto mb-4"></div>
-          <p className="lg:w-2/3 mx-auto leading-relaxed text-base text-gray-700">
-            {language === "en"
-              ? "Feel free to share your comments or feedback for my portfolio."
-              : "Dipersilahkan teman-teman memberikan kritik dan saran kepada website portoku."}
+      {/* ── Label bar ── */}
+      <div className="relative z-10 border-b-2 border-zinc-900 bg-white px-4 py-3 sm:px-6 lg:px-8">
+        <div className="mx-auto flex max-w-6xl items-center justify-between">
+          <p className="font-mono text-[10px] font-bold uppercase tracking-widest text-zinc-900">
+            GUEST_BOOK :: ZIKKDEV.DEV
           </p>
-        </div>
-
-        <div className="lg:w-1/2 md:w-2/3 mx-auto">
-          <div className="flex flex-wrap -m-2">
-            <div className="p-2 w-full">
-              <div className="relative">
-                <label
-                  htmlFor="name"
-                  className="leading-7 text-sm font-medium text-gray-600 flex items-center gap-2"
-                >
-                  <User className="h-4 w-4" />
-                  {language === "en" ? "Name" : "Nama"}
-                </label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  placeholder={
-                    language === "en"
-                      ? "Feel free to use anonym"
-                      : "Dipersilahkan menggunakan nama samaran"
-                  }
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  className="w-full bg-white rounded-lg border border-gray-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-3 px-4 transition-colors duration-200 ease-in-out shadow-sm"
-                />
-              </div>
-            </div>
-            <div className="p-2 w-full">
-              <div className="relative">
-                <label
-                  htmlFor="message"
-                  className="leading-7 text-sm font-medium text-gray-600 flex items-center gap-2"
-                >
-                  <MessageSquare className="h-4 w-4" />
-                  {language === "en" ? "Message" : "Pesan"}
-                </label>
-                <textarea
-                  id="message"
-                  name="message"
-                  placeholder={
-                    language === "en" ? "Your message" : "Pesan Kamu"
-                  }
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
-                  className="w-full bg-white rounded-lg border border-gray-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 h-32 text-base outline-none text-gray-700 py-3 px-4 resize-none transition-colors duration-200 ease-in-out shadow-sm"
-                />
-              </div>
-            </div>
-            <div className="p-2 w-full">
-              <button
-                onClick={handleSubmit}
-                disabled={isSubmitting}
-                className="flex items-center font-press text-sm justify-center mx-auto text-white bg-gradient-to-r from-indigo-500 to-purple-600 border-0 py-3 px-8 focus:outline-none hover:bg-indigo-600 rounded-lg transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:scale-100"
-              >
-                {isSubmitting ? (
-                  <svg
-                    className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                  >
-                    <circle
-                      className="opacity-25"
-                      cx="12"
-                      cy="12"
-                      r="10"
-                      stroke="currentColor"
-                      strokeWidth="4"
-                    ></circle>
-                    <path
-                      className="opacity-75"
-                      fill="currentColor"
-                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                    ></path>
-                  </svg>
-                ) : null}
-                {language === "en" ? "Send" : "Kirim"}{" "}
-                <Send className="ml-2 h-5 w-5" />
-              </button>
-            </div>
-          </div>
+          <span className="flex items-center gap-1.5 font-mono text-[10px] font-bold text-purple-600">
+            <span
+              className="h-1.5 w-1.5 animate-pulse rounded-full bg-purple-500"
+              aria-hidden="true"
+            />
+            {feedbackList.length} MESSAGES
+          </span>
         </div>
       </div>
 
-      <div className="container px-7 mx-auto w-full py-8 sm:py-8">
-        <h2 className="text-2xl font-semibold text-gray-800 mb-4">
-          {language === "en" ? "Comments" : "Komentar"}{" "}
-        </h2>
-        <div className="overflow-x-auto">
-          <div className="flex space-x-4">
-            {feedbackList.length > 0 ? (
-              feedbackList.map((feedback, index) => (
-                <div
-                  key={index}
-                  className="w-full md:w-3/4 lg:w-1/3 sm:w-2/3 p-4 border-l-8 border-indigo-500 bg-gray-50 rounded-lg shadow-md flex-shrink-0 transition-all duration-300 ease-in-out transform hover:scale-90 hover:bg-gray-100"
-                >
-                  <h3 className="text-lg font-semibold font-pixel text-gray-900">
-                    {feedback.name}
-                  </h3>
-                  <p className="mt-2 text-gray-700">{feedback.messages}</p>
-                  <p className="mt-2 text-xs text-gray-500 flex items-center">
-                    <Calendar className="h-3 w-3 mr-1" />
-                    {feedback.created_at}
-                  </p>
+      {/* ── Main content ── */}
+      <motion.div
+        ref={ref}
+        initial="hidden"
+        animate={isInView ? "visible" : "hidden"}
+        variants={sectionVariants}
+        className="relative z-10 mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8"
+      >
+        {/* Section heading */}
+        <motion.div variants={itemVariants} className="mb-10 sm:mb-12">
+          <p className="mb-3 font-mono text-xs tracking-wide text-purple-600">
+            &gt; COMMENT_SYS :: OPEN_LOG_
+          </p>
+          <h2
+            id="comment-heading"
+            className="font-black uppercase leading-[0.9] tracking-tighter text-zinc-900"
+            style={{ fontSize: "clamp(2.4rem, 7vw, 4rem)" }}
+          >
+            {isEn ? "GREET" : "SAPA"}
+            <br />
+            <span className="text-purple-500">{isEn ? "ME." : "SAYA."}</span>
+          </h2>
+          <p className="mt-5 max-w-lg font-mono text-sm leading-relaxed text-zinc-500">
+            {isEn
+              ? "Leave a comment or share your thoughts about my work. All feedback is welcome."
+              : "Tinggalkan komentar atau bagikan pendapatmu. Semua masukan sangat berarti."}
+          </p>
+        </motion.div>
+
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-12">
+
+          {/* ── Left: Form panel ── */}
+          <motion.div variants={itemVariants}>
+            <motion.div
+              whileHover={{
+                boxShadow: "6px 6px 0px 0px #18181b",
+                transition: { type: "spring", damping: 22, stiffness: 300 },
+              }}
+              style={{ boxShadow: "5px 5px 0px 0px #18181b" }}
+              className="border-2 border-zinc-900 bg-white"
+            >
+              {/* Window title bar */}
+              <div className="flex items-center justify-between border-b-2 border-zinc-900 bg-zinc-900 px-4 py-2.5">
+                <div className="flex items-center gap-2">
+                  <MessageSquare size={12} className="text-purple-400" aria-hidden="true" />
+                  <span className="font-mono text-xs font-bold uppercase tracking-widest text-zinc-100">
+                    {isEn ? "SUBMIT_COMMENT.EXE" : "KIRIM_KOMENTAR.EXE"}
+                  </span>
                 </div>
-              ))
-            ) : (
-              <p className="text-gray-600">
-                {language === "en" ? "No feedback yet" : "Tidak ada feedback"}.
+                <div className="flex gap-1.5" aria-hidden="true">
+                  <span className="h-2.5 w-2.5 border border-zinc-600 bg-zinc-800" />
+                  <span className="h-2.5 w-2.5 border border-zinc-600 bg-zinc-800" />
+                  <span className="h-2.5 w-2.5 border border-purple-400/60 bg-purple-400/20" />
+                </div>
+              </div>
+
+              <div className="space-y-5 p-5 sm:p-6">
+                {/* Name field */}
+                <div>
+                  <label
+                    htmlFor="comment-name"
+                    className="mb-1.5 block font-mono text-[10px] font-bold uppercase tracking-widest text-zinc-500"
+                  >
+                    &gt; {isEn ? "ALIAS" : "NAMA"}:
+                  </label>
+                  <div className="relative">
+                    <User
+                      size={13}
+                      className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400"
+                      aria-hidden="true"
+                    />
+                    <input
+                      id="comment-name"
+                      type="text"
+                      placeholder={
+                        isEn
+                          ? "Feel free to use a pseudonym"
+                          : "Boleh pakai nama samaran"
+                      }
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      className={`${inputClass} pl-8`}
+                    />
+                  </div>
+                </div>
+
+                {/* Message field */}
+                <div>
+                  <label
+                    htmlFor="comment-message"
+                    className="mb-1.5 block font-mono text-[10px] font-bold uppercase tracking-widest text-zinc-500"
+                  >
+                    &gt; {isEn ? "MESSAGE" : "PESAN"}:
+                  </label>
+                  <textarea
+                    id="comment-message"
+                    rows={4}
+                    placeholder={isEn ? "Your thoughts..." : "Pikiran kamu..."}
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    className={`${inputClass} resize-none`}
+                  />
+                </div>
+
+                {/* Submit button */}
+                <motion.button
+                  type="button"
+                  onClick={handleSubmit}
+                  disabled={isSubmitting}
+                  whileHover={
+                    !isSubmitting
+                      ? {
+                          x: -2,
+                          y: -2,
+                          boxShadow: "5px 5px 0px 0px #18181b",
+                          transition: { type: "spring", damping: 22, stiffness: 300 },
+                        }
+                      : {}
+                  }
+                  whileTap={
+                    !isSubmitting
+                      ? {
+                          scale: 0.97,
+                          y: 2,
+                          boxShadow: "2px 2px 0px 0px #18181b",
+                          transition: { type: "spring", damping: 22, stiffness: 300 },
+                        }
+                      : {}
+                  }
+                  style={{ boxShadow: "4px 4px 0px 0px #18181b" }}
+                  className="flex w-full items-center justify-center gap-2 border-2 border-zinc-900 bg-purple-400 py-3 font-mono text-xs font-black uppercase tracking-widest text-zinc-900 transition-colors duration-150 hover:bg-purple-300 disabled:cursor-not-allowed disabled:opacity-60"
+                >
+                  {isSubmitting ? (
+                    <>
+                      <motion.span
+                        animate={{ rotate: 360 }}
+                        transition={{ repeat: Infinity, duration: 0.8, ease: "linear" }}
+                        className="inline-block h-3 w-3 border-2 border-zinc-900 border-t-transparent"
+                        aria-hidden="true"
+                      />
+                      {isEn ? "TRANSMITTING..." : "MENGIRIM..."}
+                    </>
+                  ) : (
+                    <>
+                      <Send size={12} aria-hidden="true" />
+                      {isEn ? "SEND_MESSAGE.EXE" : "KIRIM_PESAN.EXE"}
+                    </>
+                  )}
+                </motion.button>
+              </div>
+            </motion.div>
+          </motion.div>
+
+          {/* ── Right: Comments list ── */}
+          <motion.div variants={itemVariants} className="flex flex-col">
+            <div className="mb-4 flex items-center justify-between border-b-2 border-zinc-200 pb-3">
+              <p className="font-mono text-[10px] font-bold uppercase tracking-widest text-zinc-500">
+                COMMENT_LOG :: {feedbackList.length} ENTRIES
               </p>
-            )}
-          </div>
+              <span className="font-mono text-[9px] uppercase tracking-widest text-zinc-400">
+                SORTED BY DATE ↓
+              </span>
+            </div>
+
+            <div className="max-h-[600px] space-y-4 overflow-y-auto pr-0.5 lg:max-h-[640px]">
+              <AnimatePresence initial={false}>
+                {feedbackList.length > 0 ? (
+                  feedbackList.map((feedback, index) => (
+                    <CommentCard
+                      key={`${feedback.name}-${feedback.created_at}-${index}`}
+                      feedback={feedback}
+                      index={index}
+                    />
+                  ))
+                ) : (
+                  <motion.div
+                    key="empty-state"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ type: "spring", damping: 20, stiffness: 100 }}
+                    className="border-2 border-dashed border-zinc-300 bg-white p-10 text-center"
+                  >
+                    <p className="mb-2 font-mono text-xs font-bold uppercase tracking-widest text-zinc-500">
+                      NO_MESSAGES :: EMPTY_LOG
+                    </p>
+                    <p className="font-mono text-xs text-zinc-400">
+                      &gt;{" "}
+                      {isEn
+                        ? "Be the first to leave a message"
+                        : "Jadilah yang pertama meninggalkan pesan"}
+                    </p>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          </motion.div>
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 }

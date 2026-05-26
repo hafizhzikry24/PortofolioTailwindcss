@@ -1,232 +1,443 @@
-import React from "react";
-import Profile from "../../../assets/graduated.jpg";
-import { useInView } from "react-intersection-observer";
-import { useLanguage } from "../../../LanguageContext"; // Import useLanguage
-import js from "../../../assets/js.png";
-import ts from "../../../assets/typescript.png";
+"use client";
+
+import React, { useRef } from "react";
+import { motion, useInView } from "framer-motion";
+import { FiGithub, FiLinkedin, FiInstagram, FiDownload } from "react-icons/fi";
+import { useLanguage } from "../../../LanguageContext";
+
+// ─── Asset Imports ────────────────────────────────────────────────────────────
+import Profile  from "../../../assets/graduated.jpg";
+import js       from "../../../assets/js.png";
+import ts       from "../../../assets/typescript.png";
 import reactImg from "../../../assets/react.png";
-import css from "../../../assets/css.png";
-import Slider from "react-slick";
-import figma from "../../../assets/figma.png";
-import cisco2 from "../../../assets/image.png";
-import html from "../../../assets/html .png";
+import css      from "../../../assets/css.png";
+import figma    from "../../../assets/figma.png";
+import cisco2   from "../../../assets/image.png";
+import html     from "../../../assets/html .png";
 import tailwind from "../../../assets/tailwind.png";
-// import github from "../../../assets/github.png";
-import git from "../../../assets/git.png";
-import laravel from "../../../assets/laravel.png";
-import angular from "../../../assets/angular.png";
-import docker from "../../../assets/docker.png"
-import php from "../../../assets/php.png"
-import python from "../../../assets/python.png"
-import next from "../../../assets/next.png"
+import git      from "../../../assets/git.png";
+import laravel  from "../../../assets/laravel.png";
+import angular  from "../../../assets/angular.png";
+import docker   from "../../../assets/docker.png";
+import php      from "../../../assets/php.png";
+import python   from "../../../assets/python.png";
+import next     from "../../../assets/next.png";
+
+// ─── Data ─────────────────────────────────────────────────────────────────────
+
+const TECH_STACK = [
+  { src: js,       label: "JavaScript" },
+  { src: ts,       label: "TypeScript" },
+  { src: css,      label: "CSS3"        },
+  { src: html,     label: "HTML5"       },
+  { src: php,      label: "PHP"         },
+  { src: laravel,  label: "Laravel"     },
+  { src: python,   label: "Python"      },
+  { src: figma,    label: "Figma"       },
+  { src: reactImg, label: "React"       },
+  { src: next,     label: "Next.js"     },
+  { src: angular,  label: "Angular"     },
+  { src: tailwind, label: "Tailwind"    },
+  { src: git,      label: "Git"         },
+  { src: cisco2,   label: "Cisco"       },
+  { src: docker,   label: "Docker"      },
+];
+
+const SOCIAL_LINKS = [
+  {
+    id: "instagram",
+    Icon: FiInstagram,
+    href: "https://www.instagram.com/hafizh.zikry/",
+    label: "Instagram Hafizh Zikry",
+  },
+  {
+    id: "linkedin",
+    Icon: FiLinkedin,
+    href: "https://www.linkedin.com/in/muhammad-hafizh-zikry/",
+    label: "LinkedIn Muhammad Hafizh Zikry",
+  },
+  {
+    id: "github",
+    Icon: FiGithub,
+    href: "https://github.com/hafizhzikry24/",
+    label: "GitHub Hafizh Zikry",
+  },
+];
+
+// ─── Motion Variants ──────────────────────────────────────────────────────────
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.1, delayChildren: 0.1 },
+  },
+};
+
+const slideLeft = {
+  hidden: { opacity: 0, x: -32 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: { type: "spring", damping: 18, stiffness: 90 },
+  },
+};
+
+const slideRight = {
+  hidden: { opacity: 0, x: 32 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: { type: "spring", damping: 18, stiffness: 90 },
+  },
+};
+
+const slideUp = {
+  hidden: { opacity: 0, y: 28 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { type: "spring", damping: 18, stiffness: 90 },
+  },
+};
+
+// ─── Sub-components ───────────────────────────────────────────────────────────
+
+const Scanlines = () => (
+  <div
+    aria-hidden="true"
+    className="pointer-events-none absolute inset-0 z-10 opacity-[0.025]"
+    style={{
+      backgroundImage:
+        "repeating-linear-gradient(0deg, rgba(255,255,255,0.2) 0px, rgba(255,255,255,0.2) 1px, transparent 1px, transparent 4px)",
+    }}
+  />
+);
+
+const GridTexture = () => (
+  <div
+    aria-hidden="true"
+    className="pointer-events-none absolute inset-0 opacity-[0.018]"
+    style={{
+      backgroundImage: `
+        linear-gradient(rgba(255,255,255,0.15) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.15) 1px, transparent 1px)
+      `,
+      backgroundSize: "48px 48px",
+    }}
+  />
+);
+
+const SocialButton = ({ Icon, href, label }) => (
+  <motion.a
+    href={href}
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label={label}
+    whileHover={{
+      x: -2,
+      y: -2,
+      boxShadow: "3px 3px 0px 0px rgba(245,158,11,0.5)",
+    }}
+    whileTap={{ scale: 0.93, y: 2, boxShadow: "1px 1px 0px 0px rgba(245,158,11,0.3)" }}
+    style={{ boxShadow: "3px 3px 0px 0px rgba(0,0,0,0.7)" }}
+    className="flex h-9 w-9 items-center justify-center border-2 border-zinc-700 text-zinc-500 transition-colors duration-200 hover:border-purple-400/60 hover:text-purple-400"
+  >
+    <Icon size={14} aria-hidden="true" />
+  </motion.a>
+);
+
+const TechCard = ({ src, label }) => (
+  <motion.div
+    whileHover={{ y: -4 }}
+    transition={{ type: "spring", damping: 20, stiffness: 300 }}
+    className="group flex flex-col items-center gap-1.5 border border-zinc-800/60 bg-zinc-900/30 px-3 py-3 transition-colors duration-200 hover:border-purple-400/35 flex-shrink-0"
+  >
+    <img
+      src={src}
+      alt={label}
+      className="h-8 w-8 object-contain grayscale transition-all duration-300 group-hover:grayscale-0"
+    />
+    <span className="font-mono text-[9px] uppercase tracking-widest text-zinc-700 transition-colors duration-200 group-hover:text-purple-400/70">
+      {label}
+    </span>
+  </motion.div>
+);
+
+// ─── Main Component ───────────────────────────────────────────────────────────
 
 function Content() {
-  const { ref: contentRef, inView: isContentVisible } = useInView({
-    triggerOnce: false, // Allows fade-in animation on both scroll up and down
-    threshold: 0.1,
-  });
+  const { language } = useLanguage();
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, amount: 0.1 });
+  const isEn = language === "en";
 
-  const settings = {
-    dots: false,
-    infinite: true,
-    slidesToShow: 8, // Menampilkan 8 logo di desktop
-    slidesToScroll: 1,
-    autoplay: true,
-    speed: 2000,
-    autoplaySpeed: 2000,
-    cssEase: "linear",
-    pauseOnHover: false, // Tambahkan ini untuk mencegah pause saat hover
-    responsive: [
-      {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 4, // Menampilkan 4 logo di tablet dan mobile
-        },
-      },
-    ],
-  };
+  const statTags = isEn
+    ? ["FRESH GRADUATE", "FULL-STACK DEV", "AVAILABLE"]
+    : ["LULUSAN BARU", "FULL-STACK DEV", "TERSEDIA"];
 
-  const { language } = useLanguage(); // Get language
+  const bioCopy = isEn
+    ? "Fresh graduate in Computer Engineering from Diponegoro University, passionate about backend and frontend development. Dedicated to mastering new technologies and delivering impactful digital solutions."
+    : "Lulusan baru Teknik Komputer Universitas Diponegoro, bersemangat dalam pengembangan backend dan frontend. Berdedikasi menguasai teknologi terkini dan menghadirkan solusi digital yang berdampak.";
 
   return (
     <section
-      className="text-gray-500 body-font bg-gradient-to-r py-24 from-gray-50 to-gray-100"
       id="profile"
+      aria-labelledby="profile-name"
+      className="relative overflow-hidden bg-zinc-950"
     >
-      <div
-        ref={contentRef}
-        className={`container mx-auto flex flex-col-reverse lg:flex-row items-center py-12 px-6 lg:px-12 transition-all duration-1000 ease-in-out transform ${
-          isContentVisible
-            ? "opacity-100 translate-y-0"
-            : "opacity-0 translate-y-10"
-        }`}
-      >
-        {/* Text Section */}
-        <div className="lg:w-1/2 w-full lg:pr-12 mb-6 lg:mb-0">
-          <div className="flex items-center mb-4 transition-transform transform hover:scale-90">
-            <svg
-              className="stroke-gray-700 stroke-2 h-5 w-5 mr-2"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 10 10"
-            >
-              <line x1="0" y1="5" x2="10" y2="5" />
-            </svg>
-            <h2 className="text-lg sm:text-xl font-press text-gray-800 uppercase ">
-              {language === "en" ? "My name is" : "Nama Saya"}
-            </h2>
-          </div>
-          <h1 className="text-3xl sm:text-5xl font-bold text-white mb-4 animate-pulse sm:animate-bounce">
-            <span className="bg-gradient-to-r from-indigo-400 via-purple-600 to-pink-400 bg-clip-text text-transparent">
-              Muhammad Hafizh Zikry
-            </span>
-          </h1>
-          <p className="text-md md:text-xl text-gray-900 mb-6 font-pixel text-justify transition-transform transform hover:scale-110">
-            {language === "en"
-              ? "Hello! I am Muhammad Hafizh Zikry, a fresh graduate Computer Engineering Diponegoro University passionate about both backend and frontend development. I’m dedicated to mastering technologies and delivering impactful solutions."
-              : "Halo! Saya Muhammad Hafizh Zikry, lulusan baru Teknik Komputer Universitas Diponegoro yang bersemangat dalam pengembangan backend dan frontend. Saya berdedikasi untuk menguasai teknologi dan memberikan solusi yang berdampak."}
+      <Scanlines />
+      <GridTexture />
+
+      {/* ── Label bar ─────────────────────────────────────────────────────── */}
+      <div className="relative z-10 border-b-2 border-zinc-800 bg-zinc-950/80 px-4 py-3 sm:px-6 lg:px-8">
+        <div className="mx-auto flex max-w-6xl items-center justify-between">
+          <p className="font-mono text-[10px] uppercase tracking-widest text-zinc-700">
+            ABOUT_ME :: ZIKKDEV.DEV
           </p>
-          <div className="flex items-center space-x-4 mb-3">
-            <a
-              href="https://www.instagram.com/hafizh.zikry/"
-              name = "instagram"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Kunjungi profil Instagram Hafizh Zikry"
-               title="Instagram Hafizh Zikry"
-            >
-                <span className="sr-only">Instagram Hafizh Zikry</span>
-              <svg
-                fill="none"
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2 "
-                className="w-6 h-6 text-gray-800 hover:text-purple-400 transition-transform transform hover:scale-110"
-                viewBox="0 0 24 24"
-              >
-                <rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect>
-                <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37zm1.5-4.87h.01"></path>
-              </svg>
-            </a>
-            <a
-              href="https://www.linkedin.com/in/muhammad-hafizh-zikry/"
-              target="_blank"
-              name = "LinkedIn"
-              rel="noopener noreferrer"
-              title="LinkedIn Hafizh Zikry"
-              aria-label="Kunjungi profil LinkedIn Muhammad Hafizh Zikry"
-            >
-              <span className="sr-only">LinkedIn Hafizh Zikry</span>
-              <svg
-                fill="currentColor"
-                className="w-6 h-6 text-gray-800 hover:text-purple-400 transition-transform transform hover:scale-110"
-                viewBox="0 0 24 24"
-              >
-                <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"></path>
-                <circle cx="4" cy="4" r="2"></circle>
-              </svg>
-            </a>
-            <a
-              href="https://github.com/hafizhzikry24/"
-              name = 'github'
-              target="_blank"
-              rel="noopener noreferrer"
-              title="Github Hafizh Zikry"
-              aria-label="Kunjungi profil GitHub Hafizh Zikry"
-            >
-              <span className="sr-only">Github Hafizh Zikry</span>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="w-6 h-6 text-gray-800 hover:text-purple-400 transition-transform transform hover:scale-110"
-                viewBox="0 0 16 16"
-                fill="currentColor"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.28.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"
-                ></path>
-              </svg>
-            </a>
-            {/* <a href={CV} download="CV_Muhammad_Hafizh_Zikry.pdf">
-              <button className="transform hover:-translate-y-1 transition duration-400 inline-flex h-11 animate-shimmer items-center justify-center rounded-3xl border border-slate-800 bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] bg-[length:200%_100%] px-6 font-medium text-slate-400 focus:outline-none focus:ring-1 focus:ring-slate-600 focus:ring-offset-1 focus:ring-offset-slate-100">
-                Download CV
-              </button>
-            </a> */}
-            <a href='https://www.papermark.io/view/cm3zuc1h70004je9d9eib4hkw'target="_blank" >
-              <button className="font-pixel text-base transform hover:-translate-y-1 transition duration-400 inline-flex h-11 animate-shimmer items-center justify-center rounded-3xl border border-slate-800 bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] bg-[length:200%_100%] px-6 font-medium text-slate-400 focus:outline-none focus:ring-1 focus:ring-slate-600 focus:ring-offset-1 focus:ring-offset-slate-100">
-                Download CV
-              </button>
-            </a>
-          </div>
-        </div>
-        {/* Image Section */}
-        <div className="lg:w-1/2 w-full flex justify-center mb-10">
-          <img
-            className="w-72 h-auto sm:w-3/4 sm:h-3/4 rounded-full sm:rounded-xl shadow-xl transition-transform duration-1000 ease-in-out transform hover:scale-110 hover:rotate-3"
-            src={Profile}
-            alt="Profile"
-          />
+          <span className="flex items-center gap-1.5 font-mono text-[10px] text-green-400">
+            <span
+              aria-hidden="true"
+              className="h-1.5 w-1.5 animate-pulse rounded-full bg-green-400"
+            />
+            PROFILE_LOADED
+          </span>
         </div>
       </div>
-      <Slider className="overflow-x-hidden"  {...settings}>
-          {[
-            js,
-            ts,
-            css,
-            html,
-            php,
-            laravel,
-            python,
-            figma,
-            reactImg,
-            next,
-            angular,
-            tailwind,
-            git,
-            cisco2,
-            docker
-          ].map((icon, index) => (
-            <img
-              key={index} // Ensure each image has a unique key
-              src={icon}
-              title={icon.split("/").pop().split(".")[0]}
-              alt={
-                icon.includes("js")
-                  ? "JavaScript Icon"
-                  : icon.includes("ts")
-                  ? "Typescript Icon"
-                  : icon.includes("css")
-                  ? "CSS Icon"
-                  : icon.includes("html")
-                  ? "HTML Icon"
-                  : icon.includes("php")
-                  ? "PHP Icon"
-                  : icon.includes("laravel")
-                  ? "Laravel Icon"
-                  : icon.includes("python")
-                  ? "Python Icon"
-                  : icon.includes("figma")
-                  ? "Figma Icon"
-                  : icon.includes("react")
-                  ? "React Icon"
-                  : icon.includes("next")
-                  ? "Next Icon"
-                  : icon.includes("angular")
-                  ? "Angular Icon"
-                  : icon.includes("tailwind")
-                  ? "Tailwind CSS Icon"
-                  : icon.includes("git")
-                  ? "Git Icon"
-                  : icon.includes("cisco")
-                  ? "Cisco Icon"
-                  : icon.includes("docker")
-                  ? "Docker Icon"
-                  : "Tech Icon" // Default for unrecognized icons
-              }
-              className="w-10 h-10 sm:w-20 sm:h-20 object-contain mt-5 sm:mt-10 mb-2 sm:mb-12 ease-in-out transform hover:scale-110 hover:rotate-6"
-            />
-          ))}
-        </Slider>
+
+      {/* ── Main content grid ─────────────────────────────────────────────── */}
+      <motion.div
+        ref={ref}
+        initial="hidden"
+        animate={isInView ? "visible" : "hidden"}
+        variants={containerVariants}
+        className="relative z-10 mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8"
+      >
+        <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16">
+
+          {/* Left: text ─────────────────────────────────────────────────── */}
+          <div className="order-2 space-y-8 lg:order-1">
+
+            {/* Boot line + divider */}
+            <motion.div variants={slideLeft} className="space-y-3">
+              <p className="font-mono text-xs tracking-wide text-green-400">
+                &gt; SYS.PROFILE :: LOADED_
+              </p>
+              <motion.div
+                initial={{ scaleX: 0 }}
+                animate={isInView ? { scaleX: 1 } : { scaleX: 0 }}
+                transition={{ delay: 0.35, duration: 0.55, ease: "easeOut" }}
+                style={{ transformOrigin: "left" }}
+                className="h-px bg-zinc-800"
+              />
+            </motion.div>
+
+            {/* Name heading */}
+            <motion.div variants={slideLeft} className="space-y-1">
+              <p className="font-mono text-[10px] uppercase tracking-widest text-zinc-600">
+                {isEn ? "HELLO, I AM" : "HALO, NAMA SAYA"}
+              </p>
+              <h1
+                id="profile-name"
+                className="font-black uppercase leading-[0.9] tracking-tighter text-zinc-100"
+                style={{ fontSize: "clamp(2.6rem, 7.5vw, 5.2rem)" }}
+              >
+                MUHAMMAD
+                <br />
+                <span className="text-purple-400">HAFIZH</span> ZIKRY
+              </h1>
+            </motion.div>
+
+            {/* Bio */}
+            <motion.div
+              variants={slideUp}
+              className="border-l-2 border-purple-400/35 pl-4"
+            >
+              <p className="font-mono text-sm leading-relaxed text-zinc-500 sm:text-base">
+                {bioCopy}
+              </p>
+            </motion.div>
+
+            {/* Stat tags */}
+            <motion.div variants={slideUp} className="flex flex-wrap gap-2">
+              {statTags.map((tag) => (
+                <span
+                  key={tag}
+                  className="border border-zinc-800 bg-zinc-900/50 px-3 py-1 font-mono text-[10px] font-bold uppercase tracking-widest text-zinc-600"
+                >
+                  {tag}
+                </span>
+              ))}
+            </motion.div>
+
+            {/* Social links + CV button */}
+            <motion.div
+              variants={slideUp}
+              className="flex flex-wrap items-center gap-3"
+            >
+              {SOCIAL_LINKS.map((link) => (
+                <SocialButton key={link.id} {...link} />
+              ))}
+
+              <div
+                aria-hidden="true"
+                className="h-6 w-px bg-zinc-800"
+              />
+
+              <motion.a
+                href="https://www.papermark.io/view/cm3zuc1h70004je9d9eib4hkw"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Open Resume PDF"
+                whileHover={{
+                  x: -2,
+                  y: -2,
+                  boxShadow: "4px 4px 0px 0px rgba(245,158,11,0.5)",
+                }}
+                whileTap={{
+                  scale: 0.97,
+                  y: 2,
+                  boxShadow: "2px 2px 0px 0px rgba(245,158,11,0.3)",
+                }}
+                style={{ boxShadow: "4px 4px 0px 0px rgba(245,158,11,0.28)" }}
+                className="inline-flex items-center gap-2 border-2 border-purple-400/60 px-4 py-2 font-mono text-xs font-bold uppercase tracking-widest text-purple-400 transition-colors duration-150 hover:bg-purple-400/10"
+              >
+                <FiDownload size={11} aria-hidden="true" />
+                RESUME.PDF
+              </motion.a>
+            </motion.div>
+          </div>
+
+          {/* Right: profile image ────────────────────────────────────────── */}
+          <motion.div
+            variants={slideRight}
+            className="order-1 flex justify-center lg:order-2 lg:justify-end"
+          >
+            <motion.div
+              whileHover={{
+                scale: 1.02,
+                boxShadow: "10px 10px 0px 0px rgba(245,158,11,0.35)",
+              }}
+              transition={{ type: "spring", damping: 20, stiffness: 180 }}
+              style={{ boxShadow: "8px 8px 0px 0px rgba(245,158,11,0.25)" }}
+              className="group relative w-full max-w-[300px] sm:max-w-sm lg:max-w-xs xl:max-w-sm"
+            >
+              {/* Corner bracket decorations */}
+              <span
+                aria-hidden="true"
+                className="absolute -left-2 -top-2 z-20 h-6 w-6 border-l-2 border-t-2 border-purple-400"
+              />
+              <span
+                aria-hidden="true"
+                className="absolute -right-2 -top-2 z-20 h-6 w-6 border-r-2 border-t-2 border-purple-400"
+              />
+              <span
+                aria-hidden="true"
+                className="absolute -bottom-2 -left-2 z-20 h-6 w-6 border-b-2 border-l-2 border-purple-400"
+              />
+              <span
+                aria-hidden="true"
+                className="absolute -bottom-2 -right-2 z-20 h-6 w-6 border-b-2 border-r-2 border-purple-400"
+              />
+
+              {/* Image */}
+              <div className="relative overflow-hidden border-2 border-zinc-700">
+                <img
+                  src={Profile}
+                  alt="Muhammad Hafizh Zikry"
+                  className="block h-auto w-full object-cover object-top"
+                />
+
+                {/* CRT scan overlay on hover */}
+                <div className="pointer-events-none absolute inset-0 overflow-hidden opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                  <motion.div
+                    animate={{ y: ["-100%", "200%"] }}
+                    transition={{
+                      duration: 2,
+                      repeat: Infinity,
+                      ease: "linear",
+                    }}
+                    className="absolute h-12 w-full bg-gradient-to-b from-transparent via-purple-400/10 to-transparent"
+                  />
+                </div>
+
+                {/* Scanline vignette */}
+                <div
+                  aria-hidden="true"
+                  className="pointer-events-none absolute inset-0 opacity-[0.04]"
+                  style={{
+                    backgroundImage:
+                      "repeating-linear-gradient(0deg, rgba(0,0,0,0.6) 0px, rgba(0,0,0,0.6) 1px, transparent 1px, transparent 3px)",
+                  }}
+                />
+              </div>
+
+              {/* Name plate */}
+              <div className="flex items-center justify-between border-2 border-t-0 border-zinc-700 bg-zinc-900/70 px-4 py-2">
+                <span className="font-mono text-[10px] uppercase tracking-widest text-zinc-600">
+                  ZIKKDEV.DEV
+                </span>
+                <span className="flex items-center gap-1.5 font-mono text-[10px] text-green-400">
+                  <span
+                    aria-hidden="true"
+                    className="h-1.5 w-1.5 animate-pulse rounded-full bg-green-400"
+                  />
+                  ACTIVE
+                </span>
+              </div>
+            </motion.div>
+          </motion.div>
+        </div>
+      </motion.div>
+
+      {/* ── Tech stack marquee ─────────────────────────────────────────────── */}
+      <div className="relative z-10 border-t-2 border-zinc-800">
+
+        {/* Section label */}
+        <div className="border-b border-zinc-800/50 px-4 py-2.5 sm:px-6 lg:px-8">
+          <p className="font-mono text-[10px] uppercase tracking-widest text-zinc-700">
+            TECH_STACK :: {TECH_STACK.length} TOOLS
+          </p>
+        </div>
+
+        {/* Marquee track with edge fades */}
+        <div className="relative overflow-hidden py-4">
+          {/* Left fade mask */}
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute left-0 top-0 bottom-0 z-10 w-16 bg-gradient-to-r from-zinc-950 to-transparent"
+          />
+          {/* Right fade mask */}
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute right-0 top-0 bottom-0 z-10 w-16 bg-gradient-to-l from-zinc-950 to-transparent"
+          />
+
+          <div
+            className="flex gap-3"
+            style={{
+              animation: "retro-scroll 32s linear infinite",
+              width: "max-content",
+            }}
+          >
+            {[...TECH_STACK, ...TECH_STACK].map((tech, i) => (
+              <TechCard
+                key={`${tech.label}-${i}`}
+                src={tech.src}
+                label={tech.label}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* ── Inline keyframe for seamless marquee ──────────────────────────── */}
+      <style>{`
+        @keyframes retro-scroll {
+          from { transform: translateX(0); }
+          to   { transform: translateX(-50%); }
+        }
+      `}</style>
     </section>
   );
 }
