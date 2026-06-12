@@ -13,6 +13,24 @@ export function TimelineDemo() {
 
   const data = [
     {
+      title: "Bina Nusantara University (Senior Programmer)",
+      category: "Software Development",
+      date: "2026-06-08",
+      content: (
+        <div>
+          <p className="text-purple-400 text-sm md:text-base font-medium mb-4 flex items-center">
+            <span className="inline-block w-2 h-2 rounded-full bg-purple-500 mr-2"></span>
+            Jun 2026 - Present
+          </p>
+          <p className="text-gray-300 text-sm md:text-base font-normal text-justify leading-relaxed">
+            {language === "en"
+              ? "As a Senior Programmer, I drive the end-to-end software development lifecycle, leading the design of complex database architectures, optimized stored procedures, and comprehensive module-to-table mappings. Alongside hands-on full-stack programming and rigorous application testing, I oversee full deployment pipelines, establish technical documentation standards, and author comprehensive user guides. Partnering directly with Senior System Analysts, I actively manage project schedules to guarantee timely, cost-effective delivery while providing strategic technical advice to maximize application performance and spearheading process improvements within our Quality Management System."
+              : "Sebagai Senior Programmer, saya mengendalikan siklus pengembangan perangkat lunak dari awal hingga akhir, memimpin desain arsitektur basis data yang kompleks, memproses penyimpanan prosedur yang optimal, dan memetakan modul secara komprehensif ke tabel. Bersama dengan pengembangan full-stack secara langsung dan pengujian aplikasi yang ketat, saya mengawasi pipa penyebaran penuh, menetapkan standar dokumentasi teknis, dan menulis panduan pengguna yang komprehensif. Berkolaborasi langsung dengan Senior System Analyst, saya mengelola jadwal proyek untuk memastikan penyampaian yang tepat, waktu, dan biaya yang efisien sambil memberikan nasihat teknis strategis untuk memaksimalkan kinerja aplikasi dan memimpin peningkatan proses dalam Sistem Manajemen Mutu kami."}
+          </p>
+        </div>
+      ),
+    },
+    {
       title: "Alturian Indonesia (Junior Software Engineer)",
       category: "Software Development",
       date: "2025-02-01",
@@ -20,7 +38,7 @@ export function TimelineDemo() {
         <div>
           <p className="text-purple-400 text-sm md:text-base font-medium mb-4 flex items-center">
             <span className="inline-block w-2 h-2 rounded-full bg-purple-500 mr-2"></span>
-            Feb 2025 - Present
+            Feb 2025 - Jun 2026
           </p>
           <p className="text-gray-300 text-sm md:text-base font-normal text-justify leading-relaxed">
             {language === "en"
